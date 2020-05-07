@@ -1,0 +1,12 @@
+QLabel#MemoryLabel
+{
+font:20pt;
+color:cyan; 
+border-bottom-width: 1px; 
+border-bottom-style: solid;
+border-radius: 0px;
+}
+QListWidget
+{
+    background:lightblue;
+}
