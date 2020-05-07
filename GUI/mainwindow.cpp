@@ -7,13 +7,16 @@ MainWindow::MainWindow(QWidget *parent)
     mainWidget = new QWidget();
     mainLayout = new QHBoxLayout();
     memoryLayout = new QVBoxLayout();
-    chartView = new QChartView();
-    chart = new QChart();
-    stackedSeries = new QHorizontalStackedBarSeries();
+//    chartView = new QChartView();
+//    chart = new QChart();
+//    stackedSeries = new QHorizontalStackedBarSeries();
 
     sWidget = new QStackedWidget();
     pStack = new ProcessStack();
     memLayout = new QVBoxLayout();
+    memBox = new QGroupBox("Memory");
+    dummyLayout = new QVBoxLayout();
+    btns1Layout = new QHBoxLayout();
     processLayout = new QVBoxLayout();
     widget1 = new QWidget();
     widget2 = new QWidget();
@@ -27,17 +30,14 @@ MainWindow::MainWindow(QWidget *parent)
     btnNextSeg = new QPushButton("Next Process");
     btnDone = new QPushButton("Previous Process");
 
-    memory = new QLabel("Memory");
+//    memory = new QLabel("Memory");
     formLayout = new QFormLayout();
     memLabel = new QLabel("Memory Size:");
-    memLabel->setFont(QFont("Magma",15));
+
     memSizeEdit = new  QLineEdit();
 
-//    processesInfo = new QGroupBox("Process 1", this);
-
-//    memSize->setFont(QFont("Magma",15,Qt::black));
     formLayout->addRow(memLabel,memSizeEdit);
-    formLayout->addRow(btnAddHole,btnDelHole);
+
 
 
     memTable = new QTableWidget();
@@ -62,18 +62,17 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     //---------------------------------------Object Names------------------------------------------
-    memory->setObjectName("MemoryLabel");
+//    memory->setObjectName("MemoryLabel");
     memLabel->setObjectName("MemorySizeLabel");
     memSizeEdit->setObjectName("MemorySizeEdit");
-
-
+    memTable->setObjectName("MemoryTable");
     //---------------------------------------StyleSheets---------------------------------------
-    memory->setAlignment(Qt::AlignTop);
-    memory->setFixedHeight(47);
+//    memory->setAlignment(Qt::AlignTop);
+//    memory->setFixedHeight(47);
 
-    btnDelHole->setFixedWidth(100);
+//    btnDelHole->setFixedWidth(100);
     memTable->setAlternatingRowColors(true);
-    memTable->setStyleSheet("alternate-background-color:lightgray;text-align:center");
+
     formLayout->setFormAlignment(Qt::AlignCenter); //to be changed
 
 
@@ -83,9 +82,9 @@ MainWindow::MainWindow(QWidget *parent)
     mainLayout->addWidget(sWidget);
     mainLayout->addLayout(memoryLayout);
 
-    chart->addSeries(stackedSeries);
-    chartView->setChart(chart);
-    memoryLayout->addWidget(chartView);
+//    chart->addSeries(stackedSeries);
+//    chartView->setChart(chart);
+//    memoryLayout->addWidget(chartView);
 
 
 
@@ -94,13 +93,20 @@ MainWindow::MainWindow(QWidget *parent)
 //    sWidget->setCurrentWidget(widget2);
 
     widget1->setLayout(memLayout);
-    memLayout->addWidget(memory);
-    memLayout->addLayout(formLayout);
-    memLayout->addWidget(memTable);
+    memLayout->addWidget(memBox);
+//    memLayout->addWidget(memory);
+    memBox->setLayout(dummyLayout);
+    dummyLayout->addLayout(formLayout);
+    dummyLayout->addWidget(memTable);
+    memLayout->addLayout(btns1Layout);
+    btns1Layout->addWidget(btnAddHole);
+    btns1Layout->addWidget(btnDelHole);
+    btns1Layout->addWidget(btnNext);
 
     widget2->setLayout(processLayout);
     /*sWidget->setCurrentIndex() depending on pressing next or back*/
     sWidget->setCurrentIndex(0);
+    this->setWindowTitle("Holes Init");
 /*in GUICONTROLLER
     pStackWidget->setCurrentIndex(processesList.currentIndex());
 */
@@ -116,7 +122,7 @@ MainWindow::MainWindow(QWidget *parent)
     QGroupBox *processList = new QGroupBox("Processes");
     QGridLayout *lay = new QGridLayout();
     processList->setLayout(lay);
-    lay->addWidget(processesList,0,0,1,1);;
+    lay->addWidget(processesList,0,0,1,1);
     processLayout->addWidget(processList);
 
     QStringList p = {"P1","P2"};

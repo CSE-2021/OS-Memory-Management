@@ -1,12 +1,16 @@
-QLabel#MemoryLabel
+/*QLabel#MemoryLabel
 {
 font:20pt;
 color:cyan; 
 border-bottom-width: 1px; 
 border-bottom-style: solid;
 border-radius: 0px;
+}*/
+QTableWidget
+{
+alternate-background-color:lightgray;
+text-align:center;
 }
-
 QListWidget::item{padding: 5px;}
 QListWidget::item:alternate{background-color: #e1e8ed;}
 QListWidget::item:selected{background-color: #308CC6;}

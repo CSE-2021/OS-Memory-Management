@@ -16,17 +16,10 @@
 #include <QHeaderView>
 #include <QGroupBox>
 
-#include <QtCharts/QBarCategoryAxis>
-#include <QtCharts/QBarSeries>
-#include <QtCharts/QBarSet>
-#include <QtCharts/QChart>
-#include <QtCharts/QChartView>
-#include <QtCharts/QHorizontalStackedBarSeries>
+
 //#include <QValueAxis>
 //#include <QSizePolicy>
 #include "processstack.h"
-
-QT_CHARTS_USE_NAMESPACE
 
 class MainWindow : public QMainWindow{
     Q_OBJECT
@@ -40,6 +33,9 @@ private:
     QHBoxLayout* mainLayout;
     QVBoxLayout* memoryLayout;
     QVBoxLayout* memLayout;
+    QGroupBox* memBox;
+    QVBoxLayout* dummyLayout;
+    QHBoxLayout* btns1Layout;
     QVBoxLayout* processLayout;
     QHBoxLayout* btnsLayout;
     QStackedWidget* sWidget;
@@ -61,9 +57,9 @@ private:
     QLineEdit* memSizeEdit;
     QTableWidget* memTable;
     QHeaderView* tableHeader;
-    QChartView* chartView;
-    QChart *chart;
-    QHorizontalStackedBarSeries *stackedSeries;
+//    QChartView* chartView;
+//    QChart *chart;
+//    QHorizontalStackedBarSeries *stackedSeries;
 
     QStackedWidget* pStackWidget;
     ProcessStack* pStack;
