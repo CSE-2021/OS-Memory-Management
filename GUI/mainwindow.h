@@ -14,6 +14,7 @@
 #include <QGroupBox>
 #include <QTableWidget>
 #include <QHeaderView>
+#include <QGroupBox>
 
 #include <QtCharts/QBarCategoryAxis>
 #include <QtCharts/QBarSeries>
@@ -27,13 +28,13 @@
 
 QT_CHARTS_USE_NAMESPACE
 
-class MainWindow : public QMainWindow
-{
+class MainWindow : public QMainWindow{
     Q_OBJECT
 
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+
 private:
     QWidget* mainWidget;
     QHBoxLayout* mainLayout;
@@ -52,6 +53,7 @@ private:
     QPushButton* btnDelSeg;
     QPushButton* btnNextSeg;
     QPushButton* btnDone;
+
 
     QListWidget* processesList;
     QFormLayout* formLayout;

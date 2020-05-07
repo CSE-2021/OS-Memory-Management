@@ -11,25 +11,17 @@
 #include <QLabel>
 #include <QLineEdit>
 #include <QFormLayout>
+#include <QGroupBox>
 
-
-
-class ProcessStack : public QWidget
-{
+class ProcessStack : public QGroupBox{
     Q_OBJECT
 
 public:
     ProcessStack(QWidget *parent = nullptr);
-//    QStackedWidget * processWidget;
-    QVBoxLayout* stackedLayout;
-    QHBoxLayout* buttonsLayout;
-    QFormLayout* segLayout;
+    QVBoxLayout* mainLayout;
     QTableWidget* processTable;
-    QLabel * processLbl;
-    QLineEdit* ProcessNameEdit;
     QHeaderView * tableHead;
-    QLabel * segLbl;
-    QLineEdit * segNumEdit;
+    QGroupBox *processesInfo;
 
 };
 

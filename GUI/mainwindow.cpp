@@ -24,14 +24,17 @@ MainWindow::MainWindow(QWidget *parent)
     btnsLayout= new QHBoxLayout();
     btnAddSeg= new QPushButton("Add Segment");
     btnDelSeg= new QPushButton ("Delete Segment");
-    btnNextSeg = new QPushButton("Next Segment");
-    btnDone = new QPushButton("Done");
+    btnNextSeg = new QPushButton("Next Process");
+    btnDone = new QPushButton("Previous Process");
 
     memory = new QLabel("Memory");
     formLayout = new QFormLayout();
     memLabel = new QLabel("Memory Size:");
     memLabel->setFont(QFont("Magma",15));
     memSizeEdit = new  QLineEdit();
+
+//    processesInfo = new QGroupBox("Process 1", this);
+
 //    memSize->setFont(QFont("Magma",15,Qt::black));
     formLayout->addRow(memLabel,memSizeEdit);
     formLayout->addRow(btnAddHole,btnDelHole);
@@ -55,8 +58,6 @@ MainWindow::MainWindow(QWidget *parent)
 //         qDebug()<<i.getName();
 //         p.append(i.getName());
 //     }
-    QStringList p = {"P1","P2"};
-     processesList->addItems(p);
 
 
 
@@ -96,6 +97,7 @@ MainWindow::MainWindow(QWidget *parent)
     memLayout->addWidget(memory);
     memLayout->addLayout(formLayout);
     memLayout->addWidget(memTable);
+
     widget2->setLayout(processLayout);
     /*sWidget->setCurrentIndex() depending on pressing next or back*/
     sWidget->setCurrentIndex(0);
@@ -111,7 +113,14 @@ MainWindow::MainWindow(QWidget *parent)
     btnsLayout->addWidget(btnDelSeg);
     btnsLayout->addWidget(btnNextSeg);
     btnsLayout->addWidget(btnDone);
-    processLayout->addWidget(processesList);
+    QGroupBox *processList = new QGroupBox("Processes");
+    QGridLayout *lay = new QGridLayout();
+    processList->setLayout(lay);
+    lay->addWidget(processesList,0,0,1,1);;
+    processLayout->addWidget(processList);
+
+    QStringList p = {"P1","P2"};
+     processesList->addItems(p);
 
 
 
