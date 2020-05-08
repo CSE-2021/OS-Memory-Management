@@ -3,7 +3,7 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
-    // --------------------------------------------- Init GUI Pointers ---------------------------------------------
+    // -------------------------------- Init GUI Pointers -----------------------------------------
     mainWidget = new QWidget();
     mainLayout = new QHBoxLayout();
     memoryLayout = new QVBoxLayout();
@@ -15,6 +15,7 @@ MainWindow::MainWindow(QWidget *parent)
 //    stackedSeries = new QHorizontalStackedBarSeries();
 
     sWidget = new QStackedWidget();
+<<<<<<< HEAD
     pStack = new ProcessStack();
     memLayout = new QVBoxLayout();
     memBox = new QGroupBox("Memory");
@@ -85,34 +86,21 @@ MainWindow::MainWindow(QWidget *parent)
 
         sc->drawShape(Memory);
     //-----------------------------------------Assigning Layouts and Widgets---------------------------------------------------
+=======
+    widget1 = new HolesWidget();
+    widget2 = new ProcessWidget();
+    //-----------------------------Assigning Layouts and Widgets---------------------------------------------------
+>>>>>>> 7cb871d00a2c235535f323dcebf49423c41693f7
     this->setCentralWidget(mainWidget);
     mainWidget->setLayout(mainLayout);
     mainLayout->addWidget(sWidget);
     mainLayout->addLayout(memoryLayout);
 
-//    chart->addSeries(stackedSeries);
-//    chartView->setChart(chart);
-//    memoryLayout->addWidget(chartView);
-
-
-
     sWidget->addWidget(widget1);
     sWidget->addWidget(widget2);
-//    sWidget->setCurrentWidget(widget2);
 
-    widget1->setLayout(memLayout);
-    memLayout->addWidget(memBox);
-//    memLayout->addWidget(memory);
-    memBox->setLayout(dummyLayout);
-    dummyLayout->addLayout(formLayout);
-    dummyLayout->addWidget(memTable);
-    memLayout->addLayout(btns1Layout);
-    btns1Layout->addWidget(btnAddHole);
-    btns1Layout->addWidget(btnDelHole);
-    btns1Layout->addWidget(btnNext);
-
-    widget2->setLayout(processLayout);
     /*sWidget->setCurrentIndex() depending on pressing next or back*/
+<<<<<<< HEAD
     sWidget->setCurrentIndex(0);
     this->setWindowTitle("Holes Init");
 /*in GUICONTROLLER
@@ -138,6 +126,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     memoryLayout->addWidget(v);
      v->setScene(sc);
+=======
+    sWidget->setCurrentIndex(1);
+    this->setWindowTitle("Processes Init");
+>>>>>>> 7cb871d00a2c235535f323dcebf49423c41693f7
 
 }
 

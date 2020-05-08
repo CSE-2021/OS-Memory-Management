@@ -25,7 +25,9 @@
 
 //#include <QValueAxis>
 //#include <QSizePolicy>
-#include "processstack.h"
+
+#include "holeswidget.h"
+#include "processwidget.h"
 
 class MainWindow : public QMainWindow{
     Q_OBJECT
@@ -38,39 +40,31 @@ private:
     QWidget* mainWidget;
     QHBoxLayout* mainLayout;
     QVBoxLayout* memoryLayout;
-    QVBoxLayout* memLayout;
-    QGroupBox* memBox;
-    QVBoxLayout* dummyLayout;
-    QHBoxLayout* btns1Layout;
-    QVBoxLayout* processLayout;
-    QHBoxLayout* btnsLayout;
+//    QVBoxLayout* processLayout;
+//    QHBoxLayout* btnsLayout;
     QStackedWidget* sWidget;
-    QWidget* widget1;
-    QWidget* widget2;
-    QLabel* memory;
-    QPushButton* btnAddHole;
-    QPushButton* btnDelHole;
-    QPushButton* btnNext;
-    QPushButton* btnAddSeg;
-    QPushButton* btnDelSeg;
-    QPushButton* btnNextSeg;
-    QPushButton* btnDone;
+    HolesWidget* widget1;
+    ProcessWidget* widget2;
+//    QPushButton* btnAddSeg;
+//    QPushButton* btnDelSeg;
+//    QPushButton* btnNextSeg;
+//    QPushButton* btnDone;
 
+
+<<<<<<< HEAD
     QGraphicsView *v;
     Sketch* sc;
     Shape* Memory;
 
+=======
+//    QListWidget* processesList;
+>>>>>>> 7cb871d00a2c235535f323dcebf49423c41693f7
 
-    QListWidget* processesList;
-    QFormLayout* formLayout;
-    QLabel* memLabel;
-    QLineEdit* memSizeEdit;
-    QTableWidget* memTable;
-    QHeaderView* tableHeader;
 //    QChartView* chartView;
 //    QChart *chart;
 //    QHorizontalStackedBarSeries *stackedSeries;
 
+<<<<<<< HEAD
     QStackedWidget* pStackWidget;
     ProcessStack* pStack;
 
@@ -79,6 +73,11 @@ private:
 
 
     friend class GUIController;
+=======
+//    QStackedWidget* pStackWidget;
+//    ProcessStack* pStack;
+    friend class GUIContoller;
+>>>>>>> 7cb871d00a2c235535f323dcebf49423c41693f7
 
 };
 #endif // MAINWINDOW_H
