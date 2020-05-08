@@ -35,19 +35,20 @@ class MainWindow : public QMainWindow{
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    QStackedWidget* sWidget;
 
 private:
-    friend class GUIController;
+
     QWidget* mainWidget;
     QHBoxLayout* mainLayout;
     QVBoxLayout* memoryLayout;
-    QStackedWidget* sWidget;
+
     HolesWidget* widget1;
     ProcessWidget* widget2;
     QGraphicsView *v;
     Sketch* sc;
     Shape* Memory;
-
+ friend class GUIController;
 
 
 };

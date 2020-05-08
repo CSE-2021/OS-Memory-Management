@@ -24,10 +24,6 @@ SOURCES += \
     GUI/processwidget.cpp \
     GUI/shape.cpp \
     GUI/sketch.cpp
-
-
-
-
     main.cpp \
 
 HEADERS += \
