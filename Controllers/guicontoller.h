@@ -11,7 +11,7 @@ class GUIContoller : public QObject
 {
     Q_OBJECT
 public:
-    GUIContoller();
+    static void RegisterObject(MainWindow *m);
 private:
     static MainWindow* main;
     static HolesWidget* w1;

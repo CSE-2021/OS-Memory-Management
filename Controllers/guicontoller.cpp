@@ -2,11 +2,9 @@
 MainWindow *GUIContoller::main;
 HolesWidget *GUIContoller::w1;
 
-GUIContoller::GUIContoller():QObject()
-{
-
-
-//   connect(w1->btnNext,&QPushButton::clicked,main->sWidget,onNxtClicked());
+void GUIContoller::RegisterObject(MainWindow *m){
+    main = m;
+   connect(w1->btnNext,&QPushButton::clicked,main->sWidget,onNxtClicked());
 }
 void GUIContoller::onNxtClicked()
 {
