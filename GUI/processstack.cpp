@@ -6,6 +6,7 @@ ProcessStack::ProcessStack(QWidget *parent) : QGroupBox(parent){
    this->setTitle("Process 2");
 
    processTable = new QTableWidget();
+   processTable->setAlternatingRowColors(true);
    tableHead = processTable->horizontalHeader();
 
    processTable->setColumnCount(3);

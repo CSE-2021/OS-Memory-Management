@@ -45,7 +45,7 @@ private:
     QGraphicsView *v;
     Sketch* sc;
     Shape* Memory;
-void Gui_Init();
+void guiInit();
 void Draw();
 void drawMemory();
 

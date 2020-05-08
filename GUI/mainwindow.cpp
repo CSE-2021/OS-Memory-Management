@@ -4,14 +4,14 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
     // -------------------------------- Init GUI Pointers -----------------------------------------
-    Gui_Init();
+    guiInit();
     //----------------------------------------trying chart-----------------------------------------------------------
     drawMemory();
     //-----------------------------Assigning Layouts and Widgets---------------------------------------------------
     Draw();
 
 }
-void MainWindow::Gui_Init()
+void MainWindow::guiInit()
 {
     mainWidget = new QWidget();
     mainLayout = new QHBoxLayout();

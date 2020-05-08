@@ -15,19 +15,22 @@ class ProcessWidget :public QWidget
     Q_OBJECT
 public:
     ProcessWidget(QWidget* parent = nullptr);
+    QStackedWidget* pStackWidget;
+    ProcessStack* pStack;
+    QPushButton* btnAddSeg;
+    QPushButton* btnDelSeg;
 private:
     QVBoxLayout* mainLayout;
     QHBoxLayout* btnsLayout;
-    QPushButton* btnAddSeg;
-    QPushButton* btnDelSeg;
+
     QPushButton* btnNextSeg;
     QPushButton* btnPrev;
     QGroupBox *processList;
-    QStackedWidget* pStackWidget;
-    ProcessStack* pStack;
+
     QGridLayout *lay;
     QListWidget* processesList;
-
+void guiInit();
+void draw();
    friend class GUIController;
 };
 

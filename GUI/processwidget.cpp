@@ -3,6 +3,20 @@
 ProcessWidget::ProcessWidget(QWidget* parent): QWidget(parent)
 {
     //-------------------------------GUI Init Pointers------------------------------------------
+    guiInit();
+    //----------------------------------Ordering Layouts------------------------------------------
+    draw();
+     //    QVector<Process> processes;
+     //    QStringList p;
+     //    processes = Process::all();
+     //    qDebug()<<processes[0].getName();
+     //    for (Process i: processes){
+     //         qDebug()<<i.getName();
+     //         p.append(i.getName());
+     //     }
+}
+void ProcessWidget::guiInit()
+{
     mainLayout = new QVBoxLayout();
     btnsLayout = new QHBoxLayout();
     btnAddSeg= new QPushButton("Add Segment");
@@ -14,7 +28,10 @@ ProcessWidget::ProcessWidget(QWidget* parent): QWidget(parent)
     processList = new QGroupBox("Processes");
     lay= new QGridLayout();
     processesList = new QListWidget();
-    //----------------------------------Ordering Layouts------------------------------------------
+    processesList->setAlternatingRowColors(true);
+}
+void ProcessWidget::draw()
+{
     this->setLayout(mainLayout);
     mainLayout->addWidget(pStackWidget);
     mainLayout->addLayout(btnsLayout);
@@ -35,12 +52,4 @@ ProcessWidget::ProcessWidget(QWidget* parent): QWidget(parent)
     lay->addWidget(processesList,0,0,1,1);
     QStringList p = {"P1","P2"};
      processesList->addItems(p);
-     //    QVector<Process> processes;
-     //    QStringList p;
-     //    processes = Process::all();
-     //    qDebug()<<processes[0].getName();
-     //    for (Process i: processes){
-     //         qDebug()<<i.getName();
-     //         p.append(i.getName());
-     //     }
 }

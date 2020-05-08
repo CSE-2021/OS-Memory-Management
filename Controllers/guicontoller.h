@@ -4,6 +4,8 @@
 #include <QWidget>
 #include <QObject>
 #include <QPushButton>
+#include <QTableWidget>
+#include <QComboBox>
 #include "../GUI/mainwindow.h"
 #include "../GUI/holeswidget.h"
 #include "../GUI/processwidget.h"
@@ -16,6 +18,12 @@ private:
     static MainWindow* main;
     static HolesWidget* w1;
     static void onNxtClicked();
+    static void addHole();
+    static void delHole();
+    static void onNxtProClicked();
+    static void addSeg();
+    static void delSeg();
+
 
 };
 
