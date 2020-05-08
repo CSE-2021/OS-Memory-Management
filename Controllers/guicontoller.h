@@ -15,8 +15,7 @@ public:
 private:
     static MainWindow* main;
     static HolesWidget* w1;
-private slots:
-    void onNxtClicked();
+    static void onNxtClicked();
 
 };
 
