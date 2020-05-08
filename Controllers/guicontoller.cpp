@@ -4,7 +4,7 @@ HolesWidget *GUIContoller::w1;
 
 void GUIContoller::RegisterObject(MainWindow *m){
     main = m;
-   connect(w1->btnNext,&QPushButton::clicked,main->sWidget,onNxtClicked());
+   connect(w1->btnNext,&QPushButton::clicked,main->sWidget,onNxtClicked);
 }
 void GUIContoller::onNxtClicked()
 {
