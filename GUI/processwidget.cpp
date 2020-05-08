@@ -1,6 +1,6 @@
 #include "processwidget.h"
 
-ProcessWidget::ProcessWidget(QWidget* parent): QGroupBox(parent)
+ProcessWidget::ProcessWidget(QWidget* parent): QWidget(parent)
 {
     //-------------------------------GUI Init Pointers------------------------------------------
     mainLayout = new QVBoxLayout();
@@ -15,13 +15,15 @@ ProcessWidget::ProcessWidget(QWidget* parent): QGroupBox(parent)
     lay= new QGridLayout();
     processesList = new QListWidget();
     //----------------------------------Ordering Layouts------------------------------------------
-    this->setTitle(" ");
     this->setLayout(mainLayout);
     mainLayout->addWidget(pStackWidget);
+    mainLayout->addLayout(btnsLayout);
+    mainLayout->addWidget(processList);
+
+
     pStackWidget->addWidget(pStack);
     pStackWidget->setCurrentWidget(pStack);
 
-    mainLayout->addLayout(btnsLayout);
     btnsLayout->addWidget(btnAddSeg);
     btnsLayout->addWidget(btnDelSeg);
     btnsLayout->addWidget(btnPrev);
@@ -29,7 +31,6 @@ ProcessWidget::ProcessWidget(QWidget* parent): QGroupBox(parent)
     /*in GUICONTROLLER
         pStackWidget->setCurrentIndex(processesList.currentIndex());
     */
-    mainLayout->addWidget(processList);
     processList->setLayout(lay);
     lay->addWidget(processesList,0,0,1,1);
     QStringList p = {"P1","P2"};

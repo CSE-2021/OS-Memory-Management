@@ -10,7 +10,7 @@
 #include <QListWidget>
 #include "processstack.h"
 
-class ProcessWidget :public QGroupBox
+class ProcessWidget :public QWidget
 {
     Q_OBJECT
 public:
