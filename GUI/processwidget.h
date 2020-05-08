@@ -28,7 +28,7 @@ private:
     QGridLayout *lay;
     QListWidget* processesList;
 
-    friend class GUIController;
+   friend class GUIController;
 };
 
 #endif // PROCESSWIDGET_H

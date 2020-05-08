@@ -18,7 +18,6 @@ private:
 private slots:
     void onNxtClicked();
 
-
 };
 
 #endif // GUICONTOLLER_H

@@ -3,6 +3,4 @@
 Chart::Chart()
 {
 
-
-
 }

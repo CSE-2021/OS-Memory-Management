@@ -23,7 +23,7 @@ SOURCES += \
     GUI/processstack.cpp \
     GUI/processwidget.cpp \
     GUI/shape.cpp \
-    GUI/sketch.cpp
+    GUI/sketch.cpp \
     main.cpp \
 
 HEADERS += \
@@ -35,7 +35,6 @@ HEADERS += \
     GUI/processwidget.h \
     GUI/shape.h \
     GUI/sketch.h
-
 
 
 # Default rules for deployment.

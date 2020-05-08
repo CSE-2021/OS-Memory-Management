@@ -15,12 +15,8 @@
 #include <QTableWidget>
 #include <QHeaderView>
 #include <QGroupBox>
-
-#include "shape.h"
-#include "sketch.h"
 #include <QGraphicsView>
 #include <QGraphicsScene>
-#include <QGraphicsEllipseItem>
 
 
 //#include <QValueAxis>
@@ -28,6 +24,9 @@
 
 #include "holeswidget.h"
 #include "processwidget.h"
+#include "chart.h"
+#include "sketch.h"
+#include "shape.h"
 
 class MainWindow : public QMainWindow{
     Q_OBJECT
@@ -35,21 +34,22 @@ class MainWindow : public QMainWindow{
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    QStackedWidget* sWidget;
 
 private:
-
     QWidget* mainWidget;
     QHBoxLayout* mainLayout;
     QVBoxLayout* memoryLayout;
-
+    QStackedWidget* sWidget;
     HolesWidget* widget1;
     ProcessWidget* widget2;
     QGraphicsView *v;
     Sketch* sc;
     Shape* Memory;
- friend class GUIController;
+void Gui_Init();
+void Draw();
+void drawMemory();
 
+    friend class GUIContoller;
 
 };
 #endif // MAINWINDOW_H

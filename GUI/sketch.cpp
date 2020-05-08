@@ -61,4 +61,3 @@ for(Shape *s : *shapes){
 //    s->setText("",Shape::MIDDLE);
 }
 }
-
