@@ -33,7 +33,7 @@ void MainWindow::Draw()
     sWidget->addWidget(widget2);
 
     /*sWidget->setCurrentIndex() depending on pressing next or back*/
-    sWidget->setCurrentIndex(1);
+    sWidget->setCurrentIndex(0);
     this->setWindowTitle("Processes Init");
 
 }
