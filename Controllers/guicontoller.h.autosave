@@ -11,11 +11,7 @@ public:
     GUIContoller();
 
 
-signals :
-    void click();
-    
-public slots :
-    void onclicked();
+
 
 };
 
