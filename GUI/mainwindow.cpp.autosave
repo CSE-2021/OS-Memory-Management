@@ -95,7 +95,6 @@ MainWindow::MainWindow(QWidget *parent)
 //    memoryLayout->addWidget(chartView);
 
 
-
     sWidget->addWidget(widget1);
     sWidget->addWidget(widget2);
 //    sWidget->setCurrentWidget(widget2);

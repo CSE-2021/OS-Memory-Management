@@ -17,14 +17,20 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     Controllers/guicontoller.cpp \
+    GUI/chart.cpp \
     GUI/mainwindow.cpp \
     GUI/processstack.cpp \
+    GUI/shape.cpp \
+    GUI/sketch.cpp \
     main.cpp \
 
 HEADERS += \
     Controllers/guicontoller.h \
+    GUI/chart.h \
     GUI/mainwindow.h \
-    GUI/processstack.h
+    GUI/processstack.h \
+    GUI/shape.h \
+    GUI/sketch.h
 
 
 # Default rules for deployment.

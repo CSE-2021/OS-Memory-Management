@@ -16,6 +16,12 @@
 #include <QHeaderView>
 #include <QGroupBox>
 
+#include "shape.h"
+#include "sketch.h"
+#include <QGraphicsView>
+#include <QGraphicsScene>
+#include <QGraphicsEllipseItem>
+
 
 //#include <QValueAxis>
 //#include <QSizePolicy>
@@ -50,6 +56,10 @@ private:
     QPushButton* btnNextSeg;
     QPushButton* btnDone;
 
+    QGraphicsView *v;
+    Sketch* sc;
+    Shape* Memory;
+
 
     QListWidget* processesList;
     QFormLayout* formLayout;
@@ -63,6 +73,11 @@ private:
 
     QStackedWidget* pStackWidget;
     ProcessStack* pStack;
+
+
+
+
+
     friend class GUIController;
 
 };
