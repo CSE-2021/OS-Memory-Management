@@ -1,8 +1,0 @@
-#include "guicontoller.h"
-
-GUIContoller::GUIContoller()
-{
-
-connect(
-    
-}

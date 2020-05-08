@@ -37,47 +37,18 @@ public:
     ~MainWindow();
 
 private:
+    friend class GUIController;
     QWidget* mainWidget;
     QHBoxLayout* mainLayout;
     QVBoxLayout* memoryLayout;
-//    QVBoxLayout* processLayout;
-//    QHBoxLayout* btnsLayout;
     QStackedWidget* sWidget;
     HolesWidget* widget1;
     ProcessWidget* widget2;
-//    QPushButton* btnAddSeg;
-//    QPushButton* btnDelSeg;
-//    QPushButton* btnNextSeg;
-//    QPushButton* btnDone;
-
-
-<<<<<<< HEAD
     QGraphicsView *v;
     Sketch* sc;
     Shape* Memory;
 
-=======
-//    QListWidget* processesList;
->>>>>>> 7cb871d00a2c235535f323dcebf49423c41693f7
 
-//    QChartView* chartView;
-//    QChart *chart;
-//    QHorizontalStackedBarSeries *stackedSeries;
-
-<<<<<<< HEAD
-    QStackedWidget* pStackWidget;
-    ProcessStack* pStack;
-
-
-
-
-
-    friend class GUIController;
-=======
-//    QStackedWidget* pStackWidget;
-//    ProcessStack* pStack;
-    friend class GUIContoller;
->>>>>>> 7cb871d00a2c235535f323dcebf49423c41693f7
 
 };
 #endif // MAINWINDOW_H
