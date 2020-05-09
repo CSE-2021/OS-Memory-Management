@@ -17,26 +17,27 @@ class HolesWidget :public QGroupBox
 
 public:
     HolesWidget(QWidget *parent = nullptr);
+
+
+private:
+    QVBoxLayout* mainLayout;
+    QHBoxLayout* btns1Layout;
+    QFormLayout* formLayout;
+    QLabel* memSizeLbl;
+    QLineEdit* memSizeEdit;
     QPushButton* btnNext;
     QPushButton* btnAddHole;
     QPushButton* btnDelHole;
     QTableWidget* memTable;
     QComboBox* allocatorBox;
-
-private:
-    friend class GUIController;
-    QVBoxLayout* mainLayout;
-    QHBoxLayout* btns1Layout;
-
-    QFormLayout* formLayout;
-    QLabel* memSizeLbl;
-    QLineEdit* memSizeEdit;
-
     QHeaderView* tableHeader;
 
-void guiInit();
-void setObjectNames();
-void draw();
+    void guiInit();
+    void setObjectNames();
+    void draw();
+
+    friend class GUIContoller;
+
 };
 
 #endif // HOLESWIDGET_H
