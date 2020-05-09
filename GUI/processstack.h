@@ -18,8 +18,10 @@ class ProcessStack : public QGroupBox{
 
 public:
     ProcessStack(QWidget *parent = nullptr);
-    QVBoxLayout* mainLayout;
     QTableWidget* processTable;
+
+private:
+    QVBoxLayout* mainLayout;
     QHeaderView * tableHead;
     QGroupBox *processesInfo;
 
