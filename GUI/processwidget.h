@@ -10,8 +10,7 @@
 #include <QListWidget>
 #include "processstack.h"
 
-class ProcessWidget :public QWidget
-{
+class ProcessWidget :public QWidget{
     Q_OBJECT
 public:
     ProcessWidget(QWidget* parent = nullptr);
@@ -22,16 +21,15 @@ public:
 private:
     QVBoxLayout* mainLayout;
     QHBoxLayout* btnsLayout;
-
     QPushButton* btnNextSeg;
     QPushButton* btnPrev;
     QGroupBox *processList;
-
     QGridLayout *lay;
     QListWidget* processesList;
-void guiInit();
-void draw();
-   friend class GUIController;
+
+    void guiInit();
+    void draw();
+    friend class GUIController;
 };
 
 #endif // PROCESSWIDGET_H
