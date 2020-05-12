@@ -27,7 +27,7 @@ public:
     vector<Process *> *getProcesses();
     unsigned long getSize();
     map<Segment *, Process *> *getSegmentToProcess();
-    string getProcessName(Segment *segmentPtr);
+    string getProcessName(Segment *segment);
 };
 
 #endif // MEMORY_H_
