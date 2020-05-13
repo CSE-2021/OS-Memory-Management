@@ -16,7 +16,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    Controllers/guicontoller.cpp \
     GUI/chart.cpp \
     GUI/holeswidget.cpp \
     GUI/mainwindow.cpp \
@@ -25,16 +24,34 @@ SOURCES += \
     GUI/shape.cpp \
     GUI/sketch.cpp \
     main.cpp \
+    Controllers/guicontoller.cpp \
+    Controllers/memory_controller.cpp \
+    Backend/memory.cpp \
+    Backend/segment.cpp \
+    Backend/process.cpp \
+    Backend/allocator.cpp \
+    Backend/first_fit_allocator.cpp \
+    Backend/best_fit_allocator.cpp \
+    Backend/deallocator.cpp
+
 
 HEADERS += \
-    Controllers/guicontoller.h \
     GUI/chart.h \
     GUI/holeswidget.h \
     GUI/mainwindow.h \
     GUI/processstack.h \
     GUI/processwidget.h \
     GUI/shape.h \
-    GUI/sketch.h
+    GUI/sketch.h \
+    Controllers/guicontoller.h \
+    Controllers/memory_controller.h \
+    Backend/memory.h \
+    Backend/segment.h \
+    Backend/process.h \
+    Backend/allocator.h \
+    Backend/first_fit_allocator.h \
+    Backend/best_fit_allocator.h \
+    Backend/deallocator.h
 
 
 # Default rules for deployment.
