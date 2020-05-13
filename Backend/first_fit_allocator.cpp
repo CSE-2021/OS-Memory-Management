@@ -1,14 +1,14 @@
 #include "first_fit_allocator.h"
 
-FirstFitAllocator::FirstFitAllocator(Memory *memory)
+FirstFitAllocator::FirstFitAllocator(Memory *memory):Allocator(memory)
 {
 }
 
-bool FirstFitAllocator::allocateProcess(string processName, vector<string> *segmentsNames, vector<unsigned long> *limits)
+bool FirstFitAllocator::allocateProcess(QString processName, vector<QString> *segmentsNames, vector<unsigned long> *limits)
 {
 }
 
-void FirstFitAllocator::allocateSegment(string name, unsigned long limit)
+void FirstFitAllocator::allocateSegment(QString name, unsigned long limit)
 {
 }
 

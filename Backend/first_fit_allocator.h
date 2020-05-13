@@ -2,15 +2,17 @@
 #define FIRST_FIT_ALLOCATOR_H_
 
 #include "memory.h"
+#include "allocator.h"
+#include <QString>
 
-class FirstFitAllocator
+class FirstFitAllocator : public Allocator
 {
 protected:
-    virtual void allocateSegment(string name, unsigned long limit);
+    virtual void allocateSegment(QString name, unsigned long limit);
 
 public:
     FirstFitAllocator(Memory *memory);
-    bool allocateProcess(string processName, vector<string> *segmentsNames, vector<unsigned long> *limits);
+    bool allocateProcess(QString processName, vector<QString> *segmentsNames, vector<unsigned long> *limits);
     virtual bool reallocateProcess(Process *process);
 };
 
