@@ -2,11 +2,11 @@
 
 unsigned long Process::id = 0;
 
-Process::Process(string name)
+Process::Process(QString name)
 {
 }
 
-vector<Segment *> *Process::getSegments()
+QVector<Segment *> *Process::getSegments()
 {
 }
 
@@ -14,11 +14,11 @@ void Process::addSegment(Segment *segment)
 {
 }
 
-string Process::getName()
+QString Process::getName()
 {
 }
 
-void Process::setName(string name)
+void Process::setName(QString name)
 {
 }
 
