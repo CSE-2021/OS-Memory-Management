@@ -4,7 +4,6 @@ HolesWidget::HolesWidget(QWidget* parent): QGroupBox(parent)
 {
     //--------------------------------- Init GUI Pointers------------------------------------
     guiInit();
-
     //---------------------------------Objects Names---------------------------------------
     setObjectNames();
     //---------------------------------Ordering Layouts-------------------------------------

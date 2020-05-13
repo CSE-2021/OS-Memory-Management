@@ -5,10 +5,12 @@
 #include <QObject>
 #include <QPushButton>
 #include <QTableWidget>
+#include <QLineEdit>
 #include <QComboBox>
 #include "../GUI/mainwindow.h"
 #include "../GUI/holeswidget.h"
 #include "../GUI/processwidget.h"
+#include <qdebug.h>
 class GUIContoller : public QObject
 {
     Q_OBJECT
@@ -20,9 +22,19 @@ private:
     static void onNxtClicked();
     static void addHole();
     static void delHole();
-    static void onNxtProClicked();
+//    static void onNxtProClicked();
+//    static void onPrevProClicked();
+    static void onAllocateNewClicked();
+    static void onAllocateClicked();
+    static void onDeallocateClicked();
+    static void onResetClicked();
+    static void onProClicked();
     static void addSeg();
     static void delSeg();
+    static void onProNameChanged();
+    static void updateProCount();
+    static QString setBtnAllocate();
+
 
 
 };

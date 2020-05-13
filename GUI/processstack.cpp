@@ -1,10 +1,11 @@
 #include "processstack.h"
 
-ProcessStack::ProcessStack(QWidget *parent) : QGroupBox(parent){
+ProcessStack::ProcessStack(QWidget *parent,QString s) : QGroupBox(parent){
 // --------------------------------------------- Init GUI Pointers ---------------
    mainLayout = new QVBoxLayout();
-   this->setTitle("Process 2");
-
+   this->setTitle(s);
+   processName = new QLineEdit(this);
+   processName->setPlaceholderText("change process name");
    processTable = new QTableWidget();
    processTable->setAlternatingRowColors(true);
    tableHead = processTable->horizontalHeader();
@@ -15,5 +16,6 @@ ProcessStack::ProcessStack(QWidget *parent) : QGroupBox(parent){
    tableHead->setSectionResizeMode(QHeaderView::Stretch);
 
    this->setLayout(mainLayout);
+   mainLayout->addWidget(processName);
    mainLayout->addWidget(processTable);
 }

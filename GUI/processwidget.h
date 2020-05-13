@@ -18,17 +18,23 @@ public:
     ProcessStack* pStack;
     QPushButton* btnAddSeg;
     QPushButton* btnDelSeg;
+    QPushButton* btnNextPro;
+    QPushButton* btnPrevPro;
+    QPushButton* btnReset;
+    QListWidget* processesList;
+    QStringList* p ;
+
 private:
     QVBoxLayout* mainLayout;
     QHBoxLayout* btnsLayout;
-    QPushButton* btnNextSeg;
-    QPushButton* btnPrev;
+
     QGroupBox *processList;
     QGridLayout *lay;
-    QListWidget* processesList;
+
 
     void guiInit();
     void draw();
+    void addProcess();
     friend class GUIController;
 };
 

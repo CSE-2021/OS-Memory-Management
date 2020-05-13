@@ -34,7 +34,7 @@ void MainWindow::Draw()
 
     /*sWidget->setCurrentIndex() depending on pressing next or back*/
     sWidget->setCurrentIndex(0);
-    this->setWindowTitle("Processes Init");
+    this->setWindowTitle("Holes Init");
 
 }
 void MainWindow::drawMemory()
