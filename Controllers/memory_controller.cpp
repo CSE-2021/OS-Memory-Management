@@ -9,11 +9,11 @@ MemoryController::MemoryController(unsigned long size, AllocatorType type){
 
 
 bool MemoryController::allocateProcess(QString name, QVector<QString> &segmentsNames, QVector<unsigned long> &segmentsLimits){
-    bool out = allecator->allocateProcess(name, &segmentsNames, &segmentsLimits);
+    return allecator->allocateProcess(name, &segmentsNames, &segmentsLimits);
 }
 
 void MemoryController::deallocateSegment(unsigned long base, unsigned long limit){
-
+    deallecator->deallocateSegment(base, limit);
 }
 
 void MemoryController::deallocateProcess(QString name){
