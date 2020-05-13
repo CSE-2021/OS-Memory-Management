@@ -2,8 +2,10 @@
 #define BEST_FIT_ALLOCATOR_H_
 
 #include "memory.h"
+#include "allocator.h"
+#include <QString>
 
-class BestFitAllocator
+class BestFitAllocator : public Allocator
 {
 protected:
     virtual void allocateSegment(string name, unsigned long limit);

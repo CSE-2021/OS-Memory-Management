@@ -1,14 +1,14 @@
 #include "best_fit_allocator.h"
 
-BestFitAllocator::BestFitAllocator(Memory *memory)
+BestFitAllocator::BestFitAllocator(Memory *memory):Allocator(memory)
 {
 }
 
-bool BestFitAllocator::allocateProcess(string processName, vector<string> *segmentsNames, vector<unsigned long> *limits)
+bool BestFitAllocator::allocateProcess(QString processName, vector<QString> *segmentsNames, vector<unsigned long> *limits)
 {
 }
 
-void BestFitAllocator::allocateSegment(string name, unsigned long limit)
+void BestFitAllocator::allocateSegment(QString name, unsigned long limit)
 {
 }
 
