@@ -4,7 +4,7 @@ Allocator::Allocator(Memory *memory)
 {
 }
 
-bool Allocator::allocateProcess(string processName, vector<string> *segmentsNames, vector<unsigned long> *limits)
+bool Allocator::allocateProcess(QString processName, QVector<QString> *segmentsNames, QVector<unsigned long> *limits)
 {
 }
 

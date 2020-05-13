@@ -2,6 +2,8 @@
 #define ALLOCATOR_H_
 
 #include "memory.h"
+#include <QString>
+#include <QVector>
 
 class Allocator
 {
@@ -10,11 +12,11 @@ private:
 
 protected:
     Memory *memory;
-    virtual void allocateSegment(string name, unsigned long limit) = 0;
+    virtual void allocateSegment(QString name, unsigned long limit) = 0;
 
 public:
     Allocator(Memory *memory);
-    bool allocateProcess(string processName, vector<string> *segmentsNames, vector<unsigned long> *limits);
+    bool allocateProcess(QString processName, QVector<QString> *segmentsNames, QVector<unsigned long> *limits);
     virtual bool reallocateProcess(Process *process) = 0;
 };
 
