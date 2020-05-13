@@ -4,12 +4,12 @@ Memory::Memory(unsigned long size)
 {
 }
 
-deque<Segment *> *Memory::getSegments()
+deque<Segment*>* Memory::getSegments()
 {
     return segments;
 }
 
-vector<Process *> *Memory::getProcesses()
+QVector<Process*>* Memory::getProcesses()
 {
     return processes;
 }
@@ -19,12 +19,12 @@ unsigned long Memory::getSize()
     return size;
 }
 
-map<Segment *, Process *> *Memory::getSegmentToProcess()
+map<Segment*, Process*>* Memory::getSegmentToProcess()
 {
     return segmentToProcess;
 }
 
-string Memory::getProcessName(Segment *segment)
+QString Memory::getProcessName(Segment *segment)
 {
     return (*segmentToProcess)[segment]->getName();
 }

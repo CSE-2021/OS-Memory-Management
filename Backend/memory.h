@@ -3,31 +3,29 @@
 
 #include <deque>
 #include <map>
-#include <vector>
-#include <string>
+#include <QVector>
+#include <QString>
 #include "segment.h"
 #include "process.h"
 
-using std::deque;
 using std::map;
-using std::string;
-using std::vector;
+using std::deque;
 
 class Memory
 {
 private:
     unsigned long size;
     deque<Segment *> *segments = new deque<Segment *>();
-    vector<Process *> *processes = new vector<Process *>();
+    QVector<Process *> *processes = new QVector<Process *>();
     map<Segment *, Process *> *segmentToProcess = new map<Segment *, Process *>();
 
 public:
     Memory(unsigned long size);
     deque<Segment *> *getSegments();
-    vector<Process *> *getProcesses();
+    QVector<Process *> *getProcesses();
     unsigned long getSize();
     map<Segment *, Process *> *getSegmentToProcess();
-    string getProcessName(Segment *segment);
+    QString getProcessName(Segment *segment);
 };
 
 #endif // MEMORY_H_
