@@ -1,28 +1,23 @@
 #ifndef SEGMENT_H_
 #define SEGMENT_H_
 
-#include <string>
+#include <QString>
 
 using std::string;
 
-enum SegmentType
-{
-    FREE,
-    ALLOCATED
-};
+enum SegmentType{FREE, ALLOCATED};
 
-class Segment
-{
+class Segment{
 private:
-    string name;
+    QString name;
     long base;
     unsigned long limit;
     SegmentType segmentType;
 
 public:
-    Segment(string name, long base, unsigned long limit, SegmentType segmentType);
-    string getName();
-    void setName(string name);
+    Segment(QString name, long base, unsigned long limit, SegmentType segmentType);
+    QString getName();
+    void setName(QString name);
     long getBase();
     void setBase(long base);
     unsigned long getLimit();
@@ -30,7 +25,7 @@ public:
     SegmentType getSegmentType();
     void setSegmentType(SegmentType segmentType);
     // Static
-    static const string defaultSegmentName;
+    static const QString defaultSegmentName;
 };
 
 #endif // SEGMENT_H_

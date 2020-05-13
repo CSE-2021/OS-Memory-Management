@@ -1,16 +1,16 @@
 #include "segment.h"
 
-const string Segment::defaultSegmentName = "system";
+const QString Segment::defaultSegmentName = "system";
 
-Segment::Segment(string name, long base, unsigned long limit, SegmentType segmentType)
+Segment::Segment(QString name, long base, unsigned long limit, SegmentType segmentType)
 {
 }
 
-string Segment::getName()
+QString Segment::getName()
 {
 }
 
-void Segment::setName(string name)
+void Segment::setName(QString name)
 {
 }
 
