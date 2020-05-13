@@ -4,7 +4,7 @@ BestFitAllocator::BestFitAllocator(Memory *memory):Allocator(memory)
 {
 }
 
-bool BestFitAllocator::allocateProcess(QString processName, vector<QString> *segmentsNames, vector<unsigned long> *limits)
+bool BestFitAllocator::allocateProcess(QString processName, QVector<QString> *segmentsNames, QVector<unsigned long> *limits)
 {
 }
 

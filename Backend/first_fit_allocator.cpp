@@ -4,7 +4,7 @@ FirstFitAllocator::FirstFitAllocator(Memory *memory):Allocator(memory)
 {
 }
 
-bool FirstFitAllocator::allocateProcess(QString processName, vector<QString> *segmentsNames, vector<unsigned long> *limits)
+bool FirstFitAllocator::allocateProcess(QString processName, QVector<QString> *segmentsNames, QVector<unsigned long> *limits)
 {
 }
 

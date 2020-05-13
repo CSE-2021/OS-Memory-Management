@@ -12,7 +12,7 @@ protected:
 
 public:
     BestFitAllocator(Memory *memory);
-    bool allocateProcess(QString processName, vector<QString> *segmentsNames, vector<unsigned long> *limits);
+    bool allocateProcess(QString processName, QVector<QString> *segmentsNames, QVector<unsigned long> *limits);
     virtual bool reallocateProcess(Process *process);
 };
 

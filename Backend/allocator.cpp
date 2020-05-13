@@ -8,6 +8,6 @@ bool Allocator::allocateProcess(QString processName, QVector<QString> *segmentsN
 {
 }
 
-bool Allocator::checkIfAvailable(vector<unsigned long> *limits)
+bool Allocator::checkIfAvailable(QVector<unsigned long> *limits)
 {
 }

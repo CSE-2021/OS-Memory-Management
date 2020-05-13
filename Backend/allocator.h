@@ -8,7 +8,7 @@
 class Allocator
 {
 private:
-    bool checkIfAvailable(vector<unsigned long> *limits);
+    bool checkIfAvailable(QVector<unsigned long> *limits);
 
 protected:
     Memory *memory;
