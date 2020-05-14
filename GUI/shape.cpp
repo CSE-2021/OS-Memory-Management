@@ -6,9 +6,12 @@ Shape::Shape(int startx,int starty,int endx,int endy, Type t, int thickness){
     points[1] = starty;
     points[2] = endx;
     points[3] = endy;
+
     this->thickness = thickness;
     this->type = t;
 }
+
+
 
 Shape::Shape(int* points,int pointsCount, Type t, int thickness){
     this->points = points;
@@ -32,6 +35,11 @@ int Shape::getPointsCount() const{
 Shape::Type Shape::getType() const{
     return this->type;
 }
+
+
+
+
+
 
 bool Shape::isHovered(qreal x, qreal y){
     if(x > points[0]-hoverOffset && x < points[2]+hoverOffset && y > points[1]-hoverOffset && y < points[3]+hoverOffset){

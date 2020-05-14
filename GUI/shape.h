@@ -11,14 +11,14 @@ class Shape {
 public:
 
     enum Type{
-        RECTANGLE,LINE,MULTI_LINE
+        RECTANGLE,LINE,MULTI_LINE,RECTANGLE2
     };
 
     enum TextPos{
         MIDDLE,TOP
     };
 
-    Shape(int x1,int x2,int y1,int y2,Type t, int thickness = 1);
+    Shape(int x1,int y1,int x2, int y2,Type t, int thickness = 1);
     Shape(int* points, int pointsCount,Type t, int thickness = 1);
     Type getType() const;
     int* getPoints() const;
@@ -31,6 +31,8 @@ public:
     void setThickness(int);
     int getThickness() const;
     int getPointsCount() const;
+
+
 
 private:
     Type type;

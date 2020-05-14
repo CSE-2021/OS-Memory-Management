@@ -12,7 +12,12 @@ void Sketch::drawShape(Shape *shape){
     if(!shapes->contains(shape)){
         shapes->append(shape);
     }
-    if(shape->getType() == Shape::RECTANGLE){
+    if(shape->getType()== Shape::RECTANGLE2){
+        int* points= shape->getPoints();
+        this->addRect(points[0],points[1], points[2],points[3],QPen(shape->getColor(),shape->getThickness()));
+    }
+
+    else if(shape->getType() == Shape::RECTANGLE){
         int *points = shape->getPoints();
         this->addRect(points[0],points[1],points[2]-points[0],points[3]-points[1],QPen(shape->getColor(),shape->getThickness()));
     }else if(shape->getType() == Shape::LINE){

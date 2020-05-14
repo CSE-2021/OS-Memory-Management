@@ -70,10 +70,8 @@ void GUIContoller::onAllocateNewClicked()
 }
 void GUIContoller::onDeallocateClicked()
 {
-    qDebug()<<"Process Deallocated";
     main->widget2->pStack =dynamic_cast<ProcessStack*>(main->widget2->pStackWidget->currentWidget());
     QString title = main->widget2->pStack->title();
-//    qDebug()<<main->widget2->btnPrevPro->text();
     if (main->widget2->btnPrevPro->text()=="Deallocate Process")
     {
         //remove from memory and
@@ -148,7 +146,6 @@ void GUIContoller::onProClicked()
     {
         main->widget2->btnPrevPro->setText("Deallocate Process");
     }
-    qDebug()<<"reached"<<main->widget2->pStackWidget->currentIndex();
 }
 void GUIContoller::onProNameChanged()
 {
