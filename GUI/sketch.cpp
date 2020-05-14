@@ -14,7 +14,7 @@ void Sketch::drawShape(Shape *shape){
     }
     if(shape->getType()== Shape::RECTANGLE2){
         int* points= shape->getPoints();
-        this->addRect(points[0],points[1], points[2],points[3],QPen(shape->getColor(),shape->getThickness()));
+        this->addRect(points[0],points[1], points[2],points[3],QPen(shape->getColor(),shape->getThickness()),shape->getBrush());
     }
 
     else if(shape->getType() == Shape::RECTANGLE){
@@ -36,33 +36,34 @@ void Sketch::drawShape(Shape *shape){
     }
 }
 
-void Sketch::mouseMoveEvent(QGraphicsSceneMouseEvent *event){
-    qreal x = event->scenePos().x();
-    qreal y = event->scenePos().y();
-    for (QGraphicsItem* i : items()){
-        removeItem(i);
-    }
-    for(Shape *s : *shapes){
-        if(s->isHovered(x,y)){
-            s->setColor(s->getColor());
-        }else{
-            s->setColor(s->getColor());
-        }
-        drawShape(s);
-    }
-}
+//void Sketch::mouseMoveEvent(QGraphicsSceneMouseEvent *event){
+//    qreal x = event->scenePos().x();
+//    qreal y = event->scenePos().y();
+//    for (QGraphicsItem* i : items()){
+//        removeItem(i);
+//    }
+//    for(Shape *s : *shapes){
+//        if(s->isHovered(x,y)){
+//            s->setPen(s->getColor());
+//        }else{
+//            s->setPen(s->getColor());
+//        }
+//        drawShape(s);
+//    }
+//}
 
 void Sketch::updateShapes(){
     for(Shape *s : *shapes){
-            s->setColor(s->getColor());
+            s->setPen(s->getColor());
         drawShape(s);
     }
 }
 
 void Sketch::reset(){
-for(Shape *s : *shapes){
-//    s->setText("",Shape::MIDDLE);
-    s->setColor(Qt::black);
-//    s->setText("",Shape::MIDDLE);
-}
+    this->clear();
+//for(Shape *s : *shapes){
+////    s->setText("",Shape::MIDDLE);
+//    s->setPen(Qt::black);
+////    s->setText("",Shape::MIDDLE);
+//}
 }

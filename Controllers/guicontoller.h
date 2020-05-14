@@ -34,6 +34,7 @@ private:
     static void onProNameChanged();
     static void updateProCount();
     static QString setBtnAllocate();
+    static void onMemSizeChanged();
 
 
 

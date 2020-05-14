@@ -39,10 +39,9 @@ void MainWindow::Draw()
 }
 void MainWindow::drawMemory()
 {
-    Memory= new Shape(1103,64,1258,275,Shape::RECTANGLE,3);
-    Memory->setText("Memory" ,Shape::MIDDLE);
-    sc->drawShape(Memory);
-
+    Shape* dummy = new Shape(0,0,300,50,Shape::RECTANGLE2,4,QBrush(Qt::red,Qt::CrossPattern));
+    dummy->setText("Memory",Shape::MIDDLE);
+    sc->drawShape(dummy);
     memoryLayout->addWidget(v);
     v->setScene(sc);
 }
