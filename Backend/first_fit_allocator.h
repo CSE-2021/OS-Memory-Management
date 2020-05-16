@@ -13,7 +13,8 @@ private:
 */
 public:
     FirstFitAllocator(Memory *memory);
-    virtual bool allocateProcess(QString processName, QVector<QString> *segmentsNames, QVector<unsigned long> *limits);
+        virtual bool allocateProcess(QString processName, QVector<QString> *segmentsNames, 
+						QVector<unsigned long> *limits,bool reallocate=false , Process * ptr = NULL);
     virtual bool reallocateProcess(Process *process);
 };
 

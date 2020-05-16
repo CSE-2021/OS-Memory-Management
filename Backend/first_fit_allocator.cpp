@@ -4,7 +4,8 @@ FirstFitAllocator::FirstFitAllocator(Memory *memory):Allocator(memory)
 {
 }
 
-bool FirstFitAllocator::allocateProcess(QString processName, QVector<QString> *segmentsNames, QVector<unsigned long> *limits)
+bool FirstFitAllocator::allocateProcess(QString processName, QVector<QString> *segmentsNames, 
+						QVector<unsigned long> *limits,bool reallocate=false , Process * ptr = NULL);
 {
 	//check if limit vector has same no of elements as segment names vector and not empty
 
@@ -12,10 +13,11 @@ bool FirstFitAllocator::allocateProcess(QString processName, QVector<QString> *s
           return false;
       
           
-    else{
+       else{
 		////	segment and process creation ///////////////////////////////////////
-			
-			Process * p = new Process (processName);
+		
+		if (!reallocate) // if this function wasnt called from reallocate function	
+		{	Process * p = new Process (processName);
 			
 			for (int i=0; i< segmentsNames->size() ; i++ )
 			{
@@ -23,6 +25,13 @@ bool FirstFitAllocator::allocateProcess(QString processName, QVector<QString> *s
 				Segment * s = new Segment ( (*segmentsNames)[i],-1, (*limits) [i],FREE);
 				//adding segment to process
 				p->addSegment(s);
+			
+			}
+		}
+		
+		else { // if this function was called by reallocate function
+			
+			Process * p = &ptr;
 			
 			}
 			
@@ -127,4 +136,26 @@ void FirstFitAllocator::allocateSegment(QString name, unsigned long limit)
 
 bool FirstFitAllocator::reallocateProcess(Process *process)
 {
+
+Qvector segmentsNames;
+	for(auto &var : *(process->getSegments()))
+		segmentsNames.push_back(var.getName());
+		
+		
+		Qvector limits;
+	for(auto &var : *(process->getSegments()))
+		segmentsNames.push_back(var.getLimit());
+	
+	return allocateProcess(process->getName(), &segmentsNames,
+					&limits ,true ,&process);
+
+
+
 }
+
+
+
+
+
+
+
