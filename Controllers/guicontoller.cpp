@@ -7,6 +7,7 @@ void GUIContoller::RegisterObject(MainWindow *m){
    connect(main->widget1->btnNext,&QPushButton::clicked,main->sWidget,onNxtClicked);
    connect(main->widget1->btnAddHole,&QPushButton::clicked,main->widget1->memTable,addHole);
    connect(main->widget1->btnDelHole,&QPushButton::clicked,main->widget1->memTable,delHole);
+   connect(main->widget1->memSizeEdit,&QLineEdit::returnPressed,main->sc,onMemSizeChanged);
 
    connect(main->widget2->btnAddSeg,&QPushButton::clicked, main->widget2->pStack->processTable,addSeg);
    connect(main->widget2->btnDelSeg,&QPushButton::clicked, main->widget2->pStack->processTable,delSeg);
@@ -19,6 +20,7 @@ void GUIContoller::RegisterObject(MainWindow *m){
 
    connect(main->widget2->pStack->processName,&QLineEdit::textEdited,main->widget2->pStackWidget,onProNameChanged);
    connect(main->widget2->pStack->processName,&QLineEdit::textEdited,main->widget2->processesList,updateProCount);
+
 }
 void GUIContoller::onNxtClicked()
 {
@@ -70,10 +72,8 @@ void GUIContoller::onAllocateNewClicked()
 }
 void GUIContoller::onDeallocateClicked()
 {
-    qDebug()<<"Process Deallocated";
     main->widget2->pStack =dynamic_cast<ProcessStack*>(main->widget2->pStackWidget->currentWidget());
     QString title = main->widget2->pStack->title();
-//    qDebug()<<main->widget2->btnPrevPro->text();
     if (main->widget2->btnPrevPro->text()=="Deallocate Process")
     {
         //remove from memory and
@@ -114,6 +114,7 @@ void GUIContoller::delSeg()
 }
 void GUIContoller::onResetClicked()
 {
+    main->sc->reset();
     main->sWidget->setCurrentIndex(0);
     int n_process = main->widget2->p->size(); //or table.count()
     for(int i = n_process; i > 0; i--)
@@ -127,8 +128,9 @@ void GUIContoller::onResetClicked()
     main->widget2->pStack = dynamic_cast<ProcessStack*>(main->widget2->pStackWidget->currentWidget());
     main->widget2->pStack->processTable->clear();
     main->widget2->pStack->processTable->setRowCount(0);
+    main->widget2->processesList->clear();
 
-    //Resetting HolesWidget
+    //Resetting HolesWidge
     main->widget1->memTable->clear();
     main->widget1->memTable->setRowCount(0);
 }
@@ -148,7 +150,6 @@ void GUIContoller::onProClicked()
     {
         main->widget2->btnPrevPro->setText("Deallocate Process");
     }
-    qDebug()<<"reached"<<main->widget2->pStackWidget->currentIndex();
 }
 void GUIContoller::onProNameChanged()
 {
@@ -162,8 +163,35 @@ void GUIContoller::updateProCount()
     main->widget2->pStack =dynamic_cast<ProcessStack*>(main->widget2->pStackWidget->currentWidget());
     main->widget2->processesList->item(main->widget2->pStackWidget->currentIndex())->setText(main->widget2->pStack->processName->text());
 }
-QString GUIContoller:: setBtnAllocate()
+//QString GUIContoller:: setBtnAllocate()
+//{
+
+//}
+void GUIContoller::onMemSizeChanged()
 {
+    main->sc->reset();
+    int len = main->widget1->memSizeEdit->text().toInt();
+    main->Memory= new Shape(0,0,300,len,Shape::RECTANGLE2,4,QBrush(Qt::red,Qt::CrossPattern));
+    main->Memory->setText("Memory",Shape::MIDDLE);
+    main->sc->drawShape(main->Memory);
+//    int size = len/4;
+//    int startx{}, starty{};
+//    for(int i{};i<3;i++)
+//    {
+//        //if(segment->type()==FREE)
+//        main->segment = new Shape(startx,starty,300,size,Shape::RECTANGLE2,1,QBrush(Qt::gray,Qt::SolidPattern));
+//        main->segment->setText("Hole",Shape::MIDDLE);
+//        main->sc->drawShape(main->segment);
+//        //if(segment->type()==ALLOCATED)
+//        /*{
+//        segment = new Shape(startx,starty,300,size,Shape::RECTANGLE2,1,QBrush(variable color related to the process,Qt::SolidPattern));
+//        segment->setText(segment->name(),Shape::MIDDLE);
+//        sc->drawShape(segment)
+//        };*/
+
+//        starty+=size;
+//    }
+
 
 }
 

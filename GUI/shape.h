@@ -5,25 +5,29 @@
 #include <QGraphicsItem>
 #include <QGraphicsTextItem>
 #include <QFontMetrics>
+#include <QBrush>
+#include <QPen>
+#include <QColor>
+#include <QPalette>
 
-class Shape {
-
+class Shape  {
+//Q_OBJECT
 public:
-
     enum Type{
-        RECTANGLE,LINE,MULTI_LINE
+        RECTANGLE,LINE,MULTI_LINE,RECTANGLE2
     };
 
     enum TextPos{
         MIDDLE,TOP
     };
 
-    Shape(int x1,int x2,int y1,int y2,Type t, int thickness = 1);
+    Shape(int x1,int y1,int x2, int y2,Type t, int thickness = 1, QBrush b =Qt::white);
     Shape(int* points, int pointsCount,Type t, int thickness = 1);
     Type getType() const;
     int* getPoints() const;
     bool isHovered(qreal x, qreal y);
-    void setColor(QColor);
+    void setPen(QColor);
+    QBrush getBrush();
     QColor getColor();
     void setHoverOffset(int);
     void setText(QString text, TextPos t);
@@ -31,6 +35,8 @@ public:
     void setThickness(int);
     int getThickness() const;
     int getPointsCount() const;
+    QGraphicsTextItem *textItem = nullptr;
+
 
 private:
     Type type;
@@ -39,7 +45,9 @@ private:
     int thickness = 1;
     int pointsCount = 2;
     QColor color = Qt::black;
-    QGraphicsTextItem *textItem = nullptr;
+    QBrush brush ;
+    QPalette palette;
+
 
 };
 

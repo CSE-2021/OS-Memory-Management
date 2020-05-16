@@ -17,7 +17,8 @@
 #include <QGroupBox>
 #include <QGraphicsView>
 #include <QGraphicsScene>
-
+#include <QBrush>
+#include <QPainter>
 
 //#include <QValueAxis>
 //#include <QSizePolicy>
@@ -45,6 +46,7 @@ private:
     QGraphicsView *v;
     Sketch* sc;
     Shape* Memory;
+    Shape* segment;
 void guiInit();
 void Draw();
 void drawMemory();

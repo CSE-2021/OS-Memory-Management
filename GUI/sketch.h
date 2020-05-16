@@ -20,7 +20,7 @@ private:
     QList <Shape*> *shapes;
 
 protected:
-    void mouseMoveEvent(QGraphicsSceneMouseEvent *e);
+//    void mouseMoveEvent(QGraphicsSceneMouseEvent *e);
 };
 
 #endif // SKETCH_H

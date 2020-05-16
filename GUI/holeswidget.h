@@ -37,6 +37,7 @@ private:
     void draw();
 
     friend class GUIContoller;
+    friend class MainWindow;
 
 };
 
