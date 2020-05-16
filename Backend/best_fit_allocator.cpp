@@ -141,7 +141,7 @@ bool BestFitAllocator::allocateProcess(QString processName, QVector<QString> *se
 		// step 1 : updating segment base (using seg_base vector )  and segment type
 		
 		for (int i=0; i< seg_base.size() ;i++)
-		
+		{
 		
 		((*(p->getSegments()))[i])->setBase(seg_base[i]);
 		

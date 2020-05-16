@@ -108,7 +108,7 @@ bool FirstFitAllocator::allocateProcess(QString processName, QVector<QString> *s
 		
 		for (int i=0; i< seg_base.size() ;i++)
 		
-		
+		{
 		((*(p->getSegments()))[i])->setBase(seg_base[i]);
 		
 		((*(p->getSegments()))[i])->setSegmentType(ALLOCATED);		
