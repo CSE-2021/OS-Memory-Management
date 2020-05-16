@@ -7,10 +7,14 @@
 
 class BestFitAllocator : public Allocator
 {
-	/*
-private:
-     void allocateSegment(QString name, unsigned long limit);
-*/
+	
+private:	
+   //  void allocateSegment(QString name, unsigned long limit);
+	  
+	  void merge (const Qvector<int> &holes,const Qvector<int> &hole_base, Qvector<pair<int,int>> & merged );
+	  void seperate (const Qvector<int> &holes,const Qvector<int> &hole_base, Qvector<pair<int,int>> & merged );
+	//  bool sortinrev(const pair<int,int> &a, const pair<int,int> &b) ;
+	  
 public:
     BestFitAllocator(Memory *memory);
     virtual bool allocateProcess(QString processName, QVector<QString> *segmentsNames, QVector<unsigned long> *limits);
