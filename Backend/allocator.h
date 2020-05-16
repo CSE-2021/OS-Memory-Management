@@ -7,16 +7,16 @@
 
 class Allocator
 {
-private:
-    bool checkIfAvailable(QVector<unsigned long> *limits);
+/*private:
+    bool checkIfAvailable(QVector<unsigned long> *limits);*/
 
 protected:
     Memory *memory;
-    virtual void allocateSegment(QString name, unsigned long limit) = 0;
+   // virtual void allocateSegment(QString name, unsigned long limit) = 0;
 
 public:
     Allocator(Memory *memory);
-    bool allocateProcess(QString processName, QVector<QString> *segmentsNames, QVector<unsigned long> *limits);
+	virtual bool allocateProcess(QString processName, QVector<QString> *segmentsNames, QVector<unsigned long> *limits) = 0 ;
     virtual bool reallocateProcess(Process *process) = 0;
 };
 
