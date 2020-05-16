@@ -57,11 +57,30 @@ bool BestFitAllocator::allocateProcess(QString processName, QVector<QString> *se
 }
 
 
-
+/*
 void BestFitAllocator::allocateSegment(QString name, unsigned long limit)
 {
 }
+*/
+
 
 bool BestFitAllocator::reallocateProcess(Process *process)
 {
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

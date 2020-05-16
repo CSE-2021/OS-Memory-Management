@@ -7,9 +7,10 @@
 
 class BestFitAllocator : public Allocator
 {
+	/*
 private:
      void allocateSegment(QString name, unsigned long limit);
-
+*/
 public:
     BestFitAllocator(Memory *memory);
     virtual bool allocateProcess(QString processName, QVector<QString> *segmentsNames, QVector<unsigned long> *limits);
