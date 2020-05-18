@@ -202,10 +202,10 @@ bool FirstFitAllocator::allocateProcess(QString processName, QVector<QString> *s
 					d->insert(it,ss);
 			}
 		
-		
+			base+= ss->getLimit();
 			if (holes[i]>0) 
 			{
-				Segment * dummy = new Segment (dummy,-1,(unsigned long)holes[i],FREE) ;
+				Segment * dummy = new Segment (dummy,base,(unsigned long)holes[i],FREE) ;
 				d->insert(it,dummy);
 			}
 		
@@ -213,7 +213,7 @@ bool FirstFitAllocator::allocateProcess(QString processName, QVector<QString> *s
 		
 		}
 		
-			
+			p->setIsAllocated(true);
 		return true;
 	}
 
