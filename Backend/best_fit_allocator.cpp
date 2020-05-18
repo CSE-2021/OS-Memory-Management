@@ -8,7 +8,7 @@ void merge (const Qvector<int> &holes,const Qvector<int> &hole_base, Qvector<pai
 {
 for(int i=0; i<hole_base.size(); i++)
     
-        merged.pushback(make_pair(holes[i], hole_base[i]));
+        merged.push_back(make_pair(holes[i], hole_base[i]));
 
 }	 
 
@@ -28,139 +28,197 @@ bool sortinrev(const pair<int,int> &a, const pair<int,int> &b)
 } 
 */
 
-bool BestFitAllocator::allocateProcess(QString processName, QVector<QString> *segmentsNames,
-										QVector<unsigned long> *limits ,bool reallocate=false , Process * ptr = NULL )
+
+Process * FirstFitAllocator:: createProcess (QString processName, QVector<QString> *segmentsNames,
+										QVector<unsigned long> *limits, bool reallocate = false, Process *ptr = NULL)
 {
 	//check if limit vector has same no of elements as segment names vector and not empty
 
-	if ( (segmentsNames->size() != limits->size() ) || (limits->size()==0 )  )
-          return false;
-      
-          
-    else{
+	if ((segmentsNames->size() != limits->size()) || (limits->size() == 0))
+		return NULL;
+
+	else
+	{
 		////	segment and process creation ///////////////////////////////////////
-		
-		if (!reallocate) // if this function wasnt called from reallocate function	
-		{	Process * p = new Process (processName);
-			
-			for (int i=0; i< segmentsNames->size() ; i++ )
+
+			Process *p;
+
+		if (!reallocate) // if this function wasnt called from reallocate function
+		{
+			p = new Process(processName);
+
+			for (int i = 0; i < segmentsNames->size(); i++)
 			{
-				//default values for base and type 
-				Segment * s = new Segment ( (*segmentsNames)[i],-1, (*limits) [i],FREE);
+				//default values for base and type
+				Segment *s = new Segment((*segmentsNames)[i], -1, (*limits)[i], FREE);
 				//adding segment to process
 				p->addSegment(s);
-			
 			}
 		}
-		
-		else { // if this function was called by reallocate function
-			
-			Process * p = &ptr;
-			
-			}
-			
-			
-		///////////////////////////////////////////////////////////////////////////	
-			Qvector<pair<int,int>> merged;
-			Qvector <long> seg_base;
-			Qvector <int> holes ;
-			Qvector <int> hole_base ;
-			holes.pushback(0);
-		
-		// making avector of holes (size and index) pf current memory 
-		for (int i=0; i< memory->getSize() ;i++ ) 
-		{
-					//derefrencing pointer to deque of memory segments then getting the i's element
-					//segment type (free/allocated) to identify possible holes
-			if  ( (*(memory->getSegments()))[i].getSegmentType() == FREE ) 
-			
-			{
-			 (*holes.end())++ ;//increment hole space
-			 // save the index that marks the base of hole
-			 if (*holes.end()==1) hole_base.pushback(i); 
-			}
-			
-			 //if memory segment not free (end of ahole ) , add anew element for next hole
-			else if (*holes.end()!=0)holes.pushback(0);
-			
+
+		else
+		{ // if this function was called by reallocate function
+
+			p = ptr;
 		}
-		
-			
-		/////////	
-		
-		int seg_vect_size=-1;
-		
-		// checking if all segments can fit in holes (first fit)	
-		// and adding their base to seg_base vector
-		for (int li=0; i< limits->size() ;li++ ) // limit index
+
+	
+	return p ;
+	
+}
+}
+
+
+
+bool FirstFitAllocator::check_if_allocation_possible (Process * p , int seg_no , Qvector<int> &holes
+								, Qvector<int> &hole_base,Qvector<pair<int,int>> merged,Qvector < pair<int ,Segment * >> &seg)
+{
+	int fitted_seg_no = 0; ,old_no=0;
+		for (int li = 0; li < seg_no ; li++) // limit index
 		{
+			unsigned long limit = (*(p->getSegments()))[li]->getLimit() ;
+			old_no= fitted_seg_no;
 			
-			
-			//// merging the base and size vectors to sort both descendingly according to size
+				//// merging the base and size vectors to sort both descendingly according to size
 			// needs to be sorted for every segment again :(
 			merge (holes,hole_base, merged );
 			sort (merged.begin() ,merged.end() );
 			seperate (holes,hole_base, merged );
+			/////////////////////////////////////////
 			
-			///////////////////////////////////////////////////////
-			
-			if (!seg_base.empty()) seg_vect_size = seg_base.size(); // update var with initial size of vector
-			
-			for	(int hi=0; i< holes.size() ;hi++ ) //holes index
+			for (int hi = 0; i < holes.size(); hi++) //holes index
 			{
-				if ( (*limits)[li] <= holes[hi] ) { // if li's segment fits into hi's hole ..
-											holes[hi]-=(*limits)[li]; //resize hole
-											hole_base[hi]+=(*limits)[li]; //update the hole base 
-											
-									//add the hole base to vector of 'possible' future segment base vector
-									// 'possible ' means if all segments of process fitted into holes  
-											seg_base.pushback((long)hole_base[hi]);
-											break ; //already found
-											}
-				
+				if ((int)(limit ) <=holes[hi])
+				{									// if li's segment fits into hi's hole ..
+					holes[hi] -= (int) limit;		//resize hole
+					seg.push_back(make_pair(hi,(*(p->getSegments()))[li] ) );
+					
+					
+					fitted_seg_no++;
+					break; //already found
+				}
 				
 			}
-			//if seg_base vect size doesnt increase
-			//it means no hole was found for any segment 
-			if ( seg_vect_size == seg_base.size() ) 
-							//			return false ; // kill -_-
-							// new part //////
-						
-						// set all bases of segments to -1 (done) (default)
-						// set all segments type to free (done) (default)
-						// set isallocated process to false
-						
-						{
-							p->setIsAllocated(false);
-							return false;
-						}		
+		// if no of fitted segments vent increased (segment cant be placed in memory)
+				if (old_no == fitted_seg_no) return false; 
+		
 		}
-			
-		//if the prog reaches this point it means that process is eligible for allocation 		
-		
-		// step 1 : updating segment base (using seg_base vector )  and segment type
-		
-		for (int i=0; i< seg_base.size() ;i++)
+	return true;
+}
+
+
+void FirstFitAllocator:: extract_memory_holes (Qvector<int> &holes , Qvector<int> &hole_base)
+{
+	
+		// making avector of holes (size and index) pf current memory
+		for (int i = 0;i< (*(memory->getSegments())).size(); i++)
 		{
+			//derefrencing pointer to deque of memory segments then getting the i's element
+			//segment type (free/allocated) to identify possible holes
+			if ((*(memory->getSegments()))[i].getSegmentType() == FREE)
+			{
+				(holes[holes.size()-1])+=((*(memory->getSegments()))[i].getLimit(); //adding the size of hole to holes vect 
+				// save the index that marks the base of hole
+					hole_base.push_back(i);
+			}
+
+			//if memory segment not free  , add anew element for next hole
+			else if (holes[holes.size()-1] != 0)
+				holes.push_back(0);
+		}
+
 		
-		((*(p->getSegments()))[i])->setBase(seg_base[i]);
+		/////////
+
+
+}
+
+
+
+
+
+bool FirstFitAllocator::allocateProcess(QString processName, QVector<QString> *segmentsNames,
+										QVector<unsigned long> *limits, bool reallocate = false, Process *ptr = NULL)
+{
+			// create new process on heap with default values base=-1 
+			// isallocated =0  , segmentType = FREE
+			
+		Process * p = createProcess(processName , segmentsNames ,limits,reallocate,ptr);
 		
-		((*(p->getSegments()))[i])->setSegmentType(ALLOCATED);		
+		if (p==NULL) return false; // problem with given parameters
+		
+		//adding process to vect of processes in memory 
+		(memory->getProcesses())->push_back(p);
+		//number of segments in given process
+		int no_of_seg = limits->size();
+		///////////////////////////////////////////////////////////////////////////
+		Qvector<pair<int,int>> merged;
+		Qvector<int> holes; // sizes of free segments vect
+		Qvector<int> hole_base; // index of free segments vect
+		Qvector < pair<int ,Segment * > > seg ;
+		holes.push_back(0);
+			
+		//////////////////////////////////////////////////////////////
+		// fill the free sigments' sizes and index vectors
+		extract_memory_holes(holes,hole_base);
+		/////////////////
+		//checking if allocation of the process is possible using first fit
+		if(hole_base.empty()) return false; // checking if no holes available
+		
+		//if allocation not possible terminate function
+		if ( ! check_if_allocation_possible (p , no_of_seg , holes ,hole_base,merged,seg) ) return false;
+		
+		//sort(seg.begin(),seg.end());
+		///////////////
+		//allocating..
+		
+		deque<Segment *> * d =memory->getSegments();
+		deque<Segment *>::iterator it = d->begin();
+		
+		for (int i=hole_base.size()-1; i>=0 ; i--)
+		{
+			it=d->begin()+hole_base[i] ;
+		
+			stack <Segment *> stk;
+			for (int s = seg.size()-1 ;s>=0; s--)
+			{
+				if (seg[s].first==i) stk.push(seg[s].second);
+			
+			}
+			
+			long base =hole_base[i];
+			Segment *ss =stk.pop();
+			ss->setBase(base);
+			ss->setSegmentType(ALLOCATED);
+			*d[hole_base[i]] = ss;
+			
+			while (!stk.empty())
+			{
+					base+= ss->getLimit();
+					it++;
+					ss =stk.pop();
+					ss->setBase(base);
+					ss->setSegmentType(ALLOCATED);
+					d->insert(it,ss);
+			}
+		
+		
+			if (holes[i]>0) 
+			{
+				Segment * dummy = new Segment (dummy,-1,(unsigned long)holes[i],FREE) ;
+				d->insert(it,dummy);
+			}
+		
 		
 		
 		}
 		
-		//step 2 : updating process status to allocated process
-		p->setIsAllocated(true);
-		
-		//finally !!!
-		
+			
 		return true;
-		
-}
+	}
 
 
-}
+
 
 
 /*
