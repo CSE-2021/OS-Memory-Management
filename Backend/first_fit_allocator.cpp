@@ -8,7 +8,7 @@ FirstFitAllocator::FirstFitAllocator(Memory *memory) : Allocator(memory)
 
 
 Process * FirstFitAllocator:: createProcess (QString processName, QVector<QString> *segmentsNames,
-										QVector<unsigned long> *limits, bool reallocate = false, Process *ptr = NULL)
+                                        QVector<unsigned long> *limits, bool reallocate, Process *ptr)
 {
 	//check if limit vector has same no of elements as segment names vector and not empty
 
@@ -48,10 +48,10 @@ Process * FirstFitAllocator:: createProcess (QString processName, QVector<QStrin
 
 
 
-bool FirstFitAllocator::check_if_allocation_possible (Process * p , int seg_no , Qvector<int> &holes
-								,Qvector < pair<int ,Segment * >> &seg)
+bool FirstFitAllocator::check_if_allocation_possible (Process * p , int seg_no , QVector<int> &holes
+                                ,QVector < QPair<int ,Segment * >> &seg)
 {
-	int fitted_seg_no = 0; ,old_no=0;
+    int fitted_seg_no = 0 ,old_no=0;
 		for (int li = 0; li < seg_no ; li++) // limit index
 		{
 			unsigned long limit = (*(p->getSegments()))[li]->getLimit() ;
@@ -62,7 +62,7 @@ bool FirstFitAllocator::check_if_allocation_possible (Process * p , int seg_no ,
 				if ((int)(limit ) <=holes[hi])
 				{									// if li's segment fits into hi's hole ..
 					holes[hi] -= (int) limit;		//resize hole
-					seg.push_back(make_pair(hi,(*(p->getSegments()))[li] ) );
+                    seg.push_back(qMakePair(hi,(*(p->getSegments()))[li] ) );
 					
 					
 					fitted_seg_no++;
@@ -78,7 +78,7 @@ bool FirstFitAllocator::check_if_allocation_possible (Process * p , int seg_no ,
 }
 
 
-void FirstFitAllocator:: extract_memory_holes (Qvector<int> &holes , Qvector<int> &hole_base)
+void FirstFitAllocator:: extract_memory_holes (QVector<int> &holes , QVector<int> &hole_base)
 {
 	
 		// making avector of holes (size and index) pf current memory
@@ -109,7 +109,7 @@ void FirstFitAllocator:: extract_memory_holes (Qvector<int> &holes , Qvector<int
 
 
 bool FirstFitAllocator::allocateProcess(QString processName, QVector<QString> *segmentsNames,
-										QVector<unsigned long> *limits, bool reallocate = false, Process *ptr = NULL)
+                                        QVector<unsigned long> *limits, bool reallocate , Process *ptr)
 {
 			// create new process on heap with default values base=-1 
 			// isallocated =0  , segmentType = FREE
@@ -124,9 +124,9 @@ bool FirstFitAllocator::allocateProcess(QString processName, QVector<QString> *s
 		int no_of_seg = limits->size();
 		///////////////////////////////////////////////////////////////////////////
 		
-		Qvector<int> holes; // sizes of free segments vect
-		Qvector<int> hole_base; // index of free segments vect
-		Qvector < pair<int ,Segment * > > seg ;
+        QVector<int> holes; // sizes of free segments vect
+        QVector<int> hole_base; // index of free segments vect
+        QVector < QPair<int ,Segment * > > seg ;
 		holes.push_back(0);
 			
 		//////////////////////////////////////////////////////////////
@@ -150,7 +150,7 @@ bool FirstFitAllocator::allocateProcess(QString processName, QVector<QString> *s
 		{
 			it=d->begin()+hole_base[i] ;
 		
-			stack <Segment *> stk;
+            QStack <Segment* > stk;
 			for (int s = seg.size()-1 ;s>=0; s--)
 			{
 				if (seg[s].first==i) stk.push(seg[s].second);
@@ -208,13 +208,13 @@ void FirstFitAllocator::allocateSegment(QString name, unsigned long limit)
 	bool FirstFitAllocator::reallocateProcess(Process * process)
 	{
 
-		Qvector segmentsNames;
+        QVector <QString> segmentsNames;//CHANGED
 		for (auto &var : *(process->getSegments()))
 			segmentsNames.push_back(var.getName());
 
-		Qvector limits;
+        QVector<unsigned long> limits;
 		for (auto &var : *(process->getSegments()))
-			segmentsNames.push_back(var.getLimit());
+            limits.push_back(var.getLimit());//CHANGED
 
 		return allocateProcess(process->getName(), &segmentsNames,
 							   &limits, true, &process);
