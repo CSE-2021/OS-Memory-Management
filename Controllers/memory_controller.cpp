@@ -17,7 +17,12 @@ void MemoryController::deallocateSegment(unsigned long base, unsigned long limit
 }
 
 void MemoryController::deallocateProcess(QString name){
-//    deallecator->deallocateProcess()
+    for (Process *p : *(mem->getProcesses())){
+        if(!p->getName().compare(name)){
+            deallecator->deallocateProcess(p);
+            break;
+        }
+    }
 }
 
 deque<Segment*>* MemoryController::getSegments(){

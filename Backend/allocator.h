@@ -16,7 +16,8 @@ protected:
 
 public:
     Allocator(Memory *memory);
-	virtual bool allocateProcess(QString processName, QVector<QString> *segmentsNames, QVector<unsigned long> *limits) = 0 ;
+    virtual bool allocateProcess(QString processName, QVector<QString> *segmentsNames, QVector<unsigned long> *limits
+                                 ,bool reallocate=false , Process * ptr = NULL) = 0 ;
     virtual bool reallocateProcess(Process *process) = 0;
 };
 

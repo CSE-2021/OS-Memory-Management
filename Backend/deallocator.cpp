@@ -1,4 +1,7 @@
 #include "deallocator.h"
+#include <algorithm>
+
+using std::find;
 
 Deallocator::Deallocator(Memory *memory)
 {
@@ -9,7 +12,7 @@ void Deallocator::deallocateProcess(Process *processPtr)
 {
 	// step 1: converting type of segments to Free 
 
-	for (int i = 0; i < (*(processPtr->getsegments())).size(); i++)
+    for (int i = 0; i < (*(processPtr->getSegments())).size(); i++)
 
 	{
 		
@@ -27,37 +30,67 @@ void Deallocator::deallocateProcess(Process *processPtr)
 
 void Deallocator::deallocateSegment(long base, unsigned long limit)
 {
-	deque <segments *> *d= memory->getSegments();
+    deque < Segment *> *d= memory->getSegments();
 	//searching for targeted segment
-	int i ;
-	for (i=0; i < d->size() ; i++)
-	{
-			if( (base == (*d)[i]->getBase() ) && (limit == (*d)[i]->getLimit() ) )
-			{	(*d)[i]->setSegmentType(FREE);
-					break;}
-				 
-	}
-	
-	if ((i!=0) &&( (*d)[i-1]->getSegmentType()==FREE ) )
-	   merge_holes ((*d)[i-1],(*d)[i],i-1);
+    //int i ;
+    deque<Segment *>::iterator holePlace;
+    for (deque<Segment *>::iterator i = d->begin(); i != d->end() ; i++)	{
+        unsigned long startLoc = (*i)->getBase();
+        unsigned long finishLoc = startLoc + (*i)->getLimit();
+        if(base+limit <= finishLoc && base >= startLoc){
+            Segment *s1 = nullptr;
+            Segment *s2 = new Segment("HOLE", base, limit, SegmentType::FREE);
+            Segment *s3 = nullptr;
+            deque<Segment *>::iterator currentPlace = d->erase(i);
+            if (base != startLoc) s1 = new Segment("system", startLoc, base - startLoc, SegmentType::ALLOCATED);
+            if (base+limit != finishLoc) s3 = new Segment("system", base+limit, finishLoc - base - limit, SegmentType::ALLOCATED);
+            if (s1 != nullptr) {
+                currentPlace = d->insert(currentPlace, s1) + 1;
+            }
+            currentPlace = d->insert(currentPlace, s2) + 1;
+            holePlace = currentPlace - 1;
+            if (s3 != nullptr) {
+                currentPlace = d->insert(currentPlace, s3) + 1;
+            }
+            break;
+        }
+    }
+//    if (holePlace == d->begin()) {
+        
+//    } else if (holePlace + 1 == d->end()) {
+        
+//    } else {
+        
+//    }
+    if (holePlace != d->begin()) {
+        if ((*(holePlace - 1))->getSegmentType() == SegmentType::FREE) {
+            merge_holes((*(holePlace - 1)), *holePlace);
+        }
+    }
+    if (holePlace + 1 != d->end()) {
+        if ((*(holePlace + 1))->getSegmentType() == SegmentType::FREE) {
+            merge_holes(*holePlace, (*(holePlace + 1)));
+        }
+    }
+//	int i;
+//	if ((i!=0) &&( (*d)[i-1]->getSegmentType()==FREE ) )
+//       merge_holes ((*d)[i-1],(*d)[i]);
 	   
-	if ((i!=(d->size()-1)) &&( (*d)[i+1]->getSegmentType()==FREE ) )
-	   merge_holes ((*d)[i],(*d)[i+1]);
+//    if ((i!=(int)(d->size()-1)) &&( (*d)[i+1]->getSegmentType()==FREE ) )
+//	   merge_holes ((*d)[i],(*d)[i+1]);
 }
 
 
 void Deallocator::merge_holes(Segment *f ,Segment *s )
 {
-	long base = f->getBase();
-	unsigned long limit =f->getLimit()+s->getLimit();
-	f->setBase(-1);
-	s->setBase(-1);
-	Segment *temp =f;
-	f = new Segment("dummy",base,limit,FREE);
-	((memory->getSegments())->erase(s);
+//	long base = f->getBase();
+    unsigned long limit =f->getLimit()+s->getLimit();
+    f->setLimit(limit);
+    delete s;
+    memory->getSegments()->erase(find(memory->getSegments()->begin(), memory->getSegments()->end(), s));
 	
-	if (temp->getName()=="dummy") delete [] temp ;
-	if (s->getName()=="dummy") delete [] s ;
+//	if (temp->getName()=="dummy") delete temp ;
+//	if (s->getName()=="dummy") delete s ;
 	
 }
 

@@ -9,6 +9,7 @@ private:
     Memory *memory;
 
     void deallocateSegment(Segment *segmentPtr);
+    void merge_holes(Segment *f ,Segment *s );
 
 public:
     Deallocator(Memory *memory);

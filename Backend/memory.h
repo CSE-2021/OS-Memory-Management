@@ -15,9 +15,9 @@ class Memory
 {
 private:
     unsigned long size;
-    deque<Segment *> *segments = new deque<Segment *>();
-    QVector<Process *> *processes = new QVector<Process *>();
-    map<Segment *, Process *> *segmentToProcess = new map<Segment *, Process *>();
+    deque<Segment *> *segments;
+    QVector<Process *> *processes;
+    map<Segment *, Process *> *segmentToProcess;
 
 public:
     Memory(unsigned long size);

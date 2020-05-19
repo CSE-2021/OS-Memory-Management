@@ -5,7 +5,7 @@
 #include "allocator.h"
 #include <QString>
 #include <QVector>
-
+#include <QStack>
 
 class BestFitAllocator : public Allocator
 {
