@@ -39,10 +39,11 @@ Process * BestFitAllocator:: createProcess (QString processName, QVector<QString
 			for (int i = 0; i < segmentsNames->size(); i++)
 			{
 				//default values for base and type
-				Segment *s = new Segment((*segmentsNames)[i], -1, (*limits)[i], FREE);
+                Segment *s = new Segment((*segmentsNames)[i], -1, (*limits)[i], ALLOCATED);
 				//adding segment to process
 				p->addSegment(s);
 			}
+            memory->getProcesses()->push_back(p);
 		}
 
 		else
@@ -123,7 +124,7 @@ void BestFitAllocator:: extract_memory_holes (QVector<int> &holes , QVector<int>
 
 
 
-
+#include <QDebug>
 
 bool BestFitAllocator::allocateProcess(QString processName, QVector<QString> *segmentsNames,
                                         QVector<unsigned long> *limits, bool reallocate , Process *ptr)
@@ -136,7 +137,7 @@ bool BestFitAllocator::allocateProcess(QString processName, QVector<QString> *se
 		if (p==NULL) return false; // problem with given parameters
 		
 		//adding process to vect of processes in memory 
-		(memory->getProcesses())->push_back(p);
+
 		//number of segments in given process
 		int no_of_seg = limits->size();
 		///////////////////////////////////////////////////////////////////////////
@@ -154,55 +155,82 @@ bool BestFitAllocator::allocateProcess(QString processName, QVector<QString> *se
 		if(hole_base.empty()) return false; // checking if no holes available
 		
 		//if allocation not possible terminate function
-		if ( ! check_if_allocation_possible (p , no_of_seg , holes ,hole_base,merged,seg) ) return false;
+        if ( ! check_if_allocation_possible (p , no_of_seg , holes ,hole_base,merged,seg) ) return false;
 		
 		//sort(seg.begin(),seg.end());
 		///////////////
-		//allocating..
+        //allocating..
+        deque<Segment *> * d =memory->getSegments();
+        deque<Segment *>::iterator targetSegment;
+        bool foundBefore = false;
+        for(QPair<int ,Segment*> p : seg){
+            for (deque<Segment *>::iterator i = d->begin(); i != d->end(); i++) {
+                if ((*i)->getLimit() >= p.second->getLimit() && (*i)->getSegmentType() == SegmentType::FREE) {
+                    if (foundBefore) {
+                        if ((*i)->getLimit() < (*targetSegment)->getLimit()) {
+                            targetSegment = i;
+                        }
+                    } else {
+                        targetSegment = i;
+                        foundBefore = true;
+                    }
+                }
+            }
+
+            p.second->setBase((*targetSegment)->getBase());
+            qDebug() << p.second->getBase();
+            (*targetSegment)->setBase((*targetSegment)->getBase() + p.second->getLimit());
+            qDebug() << (*targetSegment)->getBase();
+            (*targetSegment)->setLimit((*targetSegment)->getLimit() - p.second->getLimit());
+            qDebug() << (*targetSegment)->getLimit();
+            targetSegment = d->insert(targetSegment, p.second) + 1;
+            qDebug() << (*targetSegment)->getLimit();
+            if ((*targetSegment)->getLimit() == 0) d->erase(targetSegment);
+            foundBefore = false;
+        }
+        p->setIsAllocated(true);
+        return true;
 		
-		deque<Segment *> * d =memory->getSegments();
-		deque<Segment *>::iterator it = d->begin();
+//		for (int i=hole_base.size()-1; i>=0 ; i--)
+//		{
+//			it=d->begin()+hole_base[i] ;
 		
-		for (int i=hole_base.size()-1; i>=0 ; i--)
-		{
-			it=d->begin()+hole_base[i] ;
-		
-            QStack < Segment * > stk ;
-			for (int s = seg.size()-1 ;s>=0; s--)
-			{
-                if (seg[s].first==i) stk.push(seg[s].second);
+//            QStack < Segment * > stk ;
+//			for (int s = seg.size()-1 ;s>=0; s--)
+//			{
+//                if (seg[s].first==i) stk.push(seg[s].second);
 			
-			}
+//			}
 			
-			long base =hole_base[i];
-            Segment *ss =stk.pop();
-			ss->setBase(base);
-			ss->setSegmentType(ALLOCATED);
-            (*d)[hole_base[i]] = ss;
+//			long base =hole_base[i];
+//            Segment *ss =stk.pop();
+//			ss->setBase(base);
+//			ss->setSegmentType(ALLOCATED);
+//            (*d)[hole_base[i]] = ss;
 			
-			while (!stk.empty())
-			{
-					base+= ss->getLimit();
-					it++;
-					ss =stk.pop();
-					ss->setBase(base);
-					ss->setSegmentType(ALLOCATED);
-					d->insert(it,ss);
-			}
+//			while (!stk.empty())
+//			{
+//					base+= ss->getLimit();
+//					it++;
+//					ss =stk.pop();
+//					ss->setBase(base);
+//					ss->setSegmentType(ALLOCATED);
+//					d->insert(it,ss);
+//			}
 		
-			base+= ss->getLimit();
-			if (holes[i]>0) 
-			{
-                Segment * dummy = new Segment ("dummy",base,(unsigned long)holes[i],FREE) ;
-				d->insert(it,dummy);
-			}
+//			base+= ss->getLimit();
+//			if (holes[i]>0)
+//			{
+//                Segment * dummy = new Segment ("dummy",base,(unsigned long)holes[i],FREE) ;
+//				d->insert(it,dummy);
+//			}
 		
 		
 		
-		}
+//		}
 		
-			p->setIsAllocated(true);
-		return true;
+//			p->setIsAllocated(true);
+//		return true;
 	}
 
 

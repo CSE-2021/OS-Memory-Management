@@ -25,6 +25,17 @@ void MemoryController::deallocateProcess(QString name){
     }
 }
 
+bool MemoryController::reallocateProcess(QString name){
+    for (Process *p : *(mem->getProcesses())){
+        if(!p->getName().compare(name)){
+            return allecator->reallocateProcess(p);
+            break;
+        }
+    }
+    return false;
+}
+
+
 deque<Segment*>* MemoryController::getSegments(){
     return mem->getSegments();
 }

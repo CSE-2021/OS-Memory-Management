@@ -18,6 +18,7 @@ class MemoryController{
 public:
     MemoryController(unsigned long size, AllocatorType type);
     bool allocateProcess(QString name, QVector<QString> &segmentsNames, QVector<unsigned long> &segmentsLimits);
+    bool reallocateProcess(QString name);
     void deallocateSegment(unsigned long base, unsigned long limit);
     void deallocateProcess(QString name);
     deque<Segment*>* getSegments();
