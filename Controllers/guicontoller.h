@@ -10,6 +10,7 @@
 #include "../GUI/mainwindow.h"
 #include "../GUI/holeswidget.h"
 #include "../GUI/processwidget.h"
+#include "memory_controller.h"
 #include <qdebug.h>
 class GUIContoller : public QObject
 {
@@ -18,7 +19,7 @@ public:
     static void RegisterObject(MainWindow *m);
 private:
     static MainWindow* main;
-    static HolesWidget* w1;
+    static MemoryController* m;
     static void onNxtClicked();
     static void addHole();
     static void delHole();

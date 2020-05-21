@@ -1,9 +1,13 @@
 #include "memory_controller.h"
 
-MemoryController::MemoryController(unsigned long size, AllocatorType type){
+MemoryController::MemoryController(unsigned long size){
     mem = new Memory(size);
     deallecator = new Deallocator(mem);
-    if(type == FIRST_FIT) allecator = new FirstFitAllocator(mem);
+
+}
+
+void MemoryController::setAllocationType(AllocatorType t){
+    if(t == FIRST_FIT) allecator = new FirstFitAllocator(mem);
     else allecator = new BestFitAllocator(mem);
 }
 

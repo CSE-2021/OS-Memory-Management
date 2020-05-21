@@ -1,10 +1,11 @@
 #include "guicontoller.h"
 MainWindow *GUIContoller::main;
-HolesWidget *GUIContoller::w1;
+MemoryController *GUIContoller::m;
 
 void GUIContoller::RegisterObject(MainWindow *m){
     main = m;
    connect(main->widget1->btnNext,&QPushButton::clicked,main->sWidget,onNxtClicked);
+//   connect(main->)
    connect(main->widget1->btnAddHole,&QPushButton::clicked,main->widget1->memTable,addHole);
    connect(main->widget1->btnDelHole,&QPushButton::clicked,main->widget1->memTable,delHole);
    connect(main->widget1->memSizeEdit,&QLineEdit::returnPressed,main->sc,onMemSizeChanged);
@@ -24,51 +25,99 @@ void GUIContoller::RegisterObject(MainWindow *m){
 }
 void GUIContoller::onNxtClicked()
 {
-//    if(main->sWidget->currentIndex()==0)
-    main->sWidget->setCurrentIndex(1);
-    main->setWindowTitle("Processses Init");
-    main->widget2->pStackWidget->setCurrentIndex(0);
-    //    main->widget2->pStack->setTitle(main->widget2->p->value(0));
+//    main->widget1->memTable->itemDelegateForColumn(1);
+    for(int i=0; i < main->widget1->memTable->rowCount(); i++)
+       {
+           for(int j=0; j < main->widget1->memTable->columnCount(); j++)
+           {
+               bool flag =main->widget1->memTable->item(i,j) == nullptr;
 
+               if (!flag) /* the cell is not empty */
+               {
+                   main->sWidget->setCurrentIndex(1);
+                   main->setWindowTitle("Processses Init");
+                   main->widget2->pStackWidget->setCurrentIndex(0);
+               }
+               else /* the cell is empty */
+               {
+                   main->sWidget->setCurrentIndex(0);
+               }
+           }
+       }
+    if(main->widget1->allocatorBox->currentIndex()==0) return;
+    else if(main->widget1->allocatorBox->currentIndex()==1) m->setAllocationType(BEST_FIT);
+    else m->setAllocationType(FIRST_FIT);
+
+    int n_holes = main->widget1->memTable->rowCount();
+    for(int i = 0 ; i < n_holes  ; i++)
+    {
+        int base = main->widget1->memTable->item(i,1)->text().toInt();
+        int limit = main->widget1->memTable->item(i,2)->text().toInt();
+        m->deallocateSegment(base,limit);
+    }
+//int len =main->widget1->memSizeEdit->text().toInt();
+    for(Segment *s : *(m->getSegments())){
+        qDebug() << s->getName() << s->getBase() << s->getLimit();
+        if(s->getName()=="HOLE")
+        {
+            main->segment = new Shape(0,s->getBase(),300,s->getLimit(),Shape::RECTANGLE2,1,QBrush(Qt::gray,Qt::SolidPattern));
+            main->segment->setText("Hole",Shape::MIDDLE);
+            main->sc->drawShape(main->segment);
+        }
+    }
 }
 void GUIContoller::addHole()
 {
     main->widget1->memTable->insertRow(main->widget1->memTable->rowCount());
+    int i = main->widget1->memTable->rowCount()-1;
+    main->widget1->memTable->setItem(i,0,new QTableWidgetItem("Hole "+QString::number(i+1)));
 }
 void GUIContoller::delHole()
 {
     main->widget1->memTable->removeRow(main->widget1->memTable->currentRow());
 }
 
-/*void GUIContoller::onNxtProClicked()
-{
-    int n_process = main->widget2->p->size();
-    int index = main->widget2->pStackWidget->currentIndex();
-    main->widget2->pStackWidget->setCurrentIndex((index+1)%n_process);
-//    main->widget2->pStack->setTitle(main->widget2->p->value(main->widget2->pStackWidget->currentIndex()));
-
-}
-void GUIContoller::onPrevProClicked()
-{
-//    main->widget2->pStack->setTitle(main->widget2->);
-    int n_process = main->widget2->p->size();
-    int index = main->widget2->pStackWidget->currentIndex();
-//    qDebug()<<n_process<<" "<<index;
-    main->widget2->pStackWidget->setCurrentIndex((index-1)%n_process);
-//    main->widget2->pStack->setTitle(main->widget2->p->value(main->widget2->pStackWidget->currentIndex()));
-
-}*/
 void GUIContoller::onAllocateNewClicked()
 {
-    int num = main->widget2->pStackWidget->count()+1;
-    main->widget2->pStack = new ProcessStack(main->widget2,"P"+QString::number(num));
-    main->widget2->pStackWidget->addWidget(main->widget2->pStack);
-    main->widget2->pStackWidget->setCurrentWidget(main->widget2->pStack);
+    main->widget2->pStack =dynamic_cast<ProcessStack*>(main->widget2->pStackWidget->currentWidget());
+    QString p_name = main->widget2->pStack->title();
+    int rcount = main->widget2->pStack->processTable->rowCount();
+    for(int i=0; i < rcount; i++)
+    {
+       for(int j=0; j < main->widget2->pStack->processTable->columnCount(); j++)
+         {
+               bool flag = main->widget2->pStack->processTable->item(i,j) == nullptr;
 
-    main->widget2->processesList->addItem(main->widget2->pStack->title());
-    connect(main->widget2->pStack->processName,&QLineEdit::textEdited,main->widget2->pStackWidget,onProNameChanged);
-    connect(main->widget2->pStack->processName,&QLineEdit::textEdited,main->widget2->processesList,updateProCount);
+               if (flag) /* the cell is not empty */
+                return;
+          }
+       }
+    QVector<QString> segmentNames;
+    QVector<unsigned long> segmentSizes;
+    for(int a = 0; a < rcount; a++)
+    {
+        QString name = main->widget2->pStack->processTable->item(a,0)->text();
+//        int base = main->widget2->pStack->processTable->item(a,1)->text().toInt();
+        int size = main->widget2->pStack->processTable->item(a,2)->text().toInt();
+        segmentNames.append(name);
+        segmentSizes.append(size);
+    }
+    qDebug() << m->allocateProcess(p_name, segmentNames, segmentSizes);
+    for(Segment *s : *(m->getSegments()))
+    {
+        qDebug() << s->getName() << s->getBase() << s->getLimit();
+    }
+    bool err = false;
+    if(!err){
+        int num = main->widget2->pStackWidget->count()+1;
+        main->widget2->pStack = new ProcessStack(main->widget2,"P"+QString::number(num));
+        main->widget2->pStackWidget->addWidget(main->widget2->pStack);
+        main->widget2->pStackWidget->setCurrentWidget(main->widget2->pStack);
 
+        main->widget2->processesList->addItem(main->widget2->pStack->title());
+        connect(main->widget2->pStack->processName,&QLineEdit::textEdited,main->widget2->pStackWidget,onProNameChanged);
+        connect(main->widget2->pStack->processName,&QLineEdit::textEdited,main->widget2->processesList,updateProCount);
+    }
 }
 void GUIContoller::onDeallocateClicked()
 {
@@ -114,25 +163,39 @@ void GUIContoller::delSeg()
 }
 void GUIContoller::onResetClicked()
 {
+    delete m;
+    //Resetting memory size
     main->sc->reset();
+    main->widget1->memSizeEdit->clear();
+    main->widget1->allocatorBox->setCurrentIndex(0);
+
+    //Removing Processes Widgets
     main->sWidget->setCurrentIndex(0);
-    int n_process = main->widget2->p->size(); //or table.count()
-    for(int i = n_process; i > 0; i--)
+    int n_process = main->widget2->pStackWidget->count(); //or table.count()
+    for(int i = 1; i <n_process; i++)
     {
-        QWidget* widget = main->widget2->pStackWidget->widget(i);
-        main->widget2->pStackWidget->removeWidget(widget);
-        widget->deleteLater();
+        main->widget2->pStackWidget->setCurrentIndex(i);
+        main->widget2->pStack = dynamic_cast<ProcessStack*>(main->widget2->pStackWidget->currentWidget());
+        main->widget2->pStackWidget->removeWidget( main->widget2->pStack);
+        main->widget2->pStack->deleteLater();
     }
     //Resetting ProcessWidget
     main->widget2->pStackWidget->setCurrentIndex(0);
     main->widget2->pStack = dynamic_cast<ProcessStack*>(main->widget2->pStackWidget->currentWidget());
-    main->widget2->pStack->processTable->clear();
+    main->widget2->pStack->setTitle("P1");
+    main->widget2->pStack->processTable->clearContents();
     main->widget2->pStack->processTable->setRowCount(0);
-    main->widget2->processesList->clear();
 
-    //Resetting HolesWidge
-    main->widget1->memTable->clear();
+    //Rsetting ProcessNameEdit
+    main->widget2->pStack->processName->clear();
+
+    main->widget2->processesList->clear();
+    main->widget2->processesList->addItem("P1");
+
+    //Resetting HolesWidget
+    main->widget1->memTable->clearContents();
     main->widget1->memTable->setRowCount(0);
+
 }
 void GUIContoller::onProClicked()
 {
@@ -171,27 +234,9 @@ void GUIContoller::onMemSizeChanged()
 {
     main->sc->reset();
     int len = main->widget1->memSizeEdit->text().toInt();
-    main->Memory= new Shape(0,0,300,len,Shape::RECTANGLE2,4,QBrush(Qt::red,Qt::CrossPattern));
+    m = new MemoryController(len);
+    main->Memory= new Shape(0,0,300,len,Shape::RECTANGLE2,4,QBrush(Qt::red,Qt::CrossPattern)); // changes here
     main->Memory->setText("Memory",Shape::MIDDLE);
     main->sc->drawShape(main->Memory);
-//    int size = len/4;
-//    int startx{}, starty{};
-//    for(int i{};i<3;i++)
-//    {
-//        //if(segment->type()==FREE)
-//        main->segment = new Shape(startx,starty,300,size,Shape::RECTANGLE2,1,QBrush(Qt::gray,Qt::SolidPattern));
-//        main->segment->setText("Hole",Shape::MIDDLE);
-//        main->sc->drawShape(main->segment);
-//        //if(segment->type()==ALLOCATED)
-//        /*{
-//        segment = new Shape(startx,starty,300,size,Shape::RECTANGLE2,1,QBrush(variable color related to the process,Qt::SolidPattern));
-//        segment->setText(segment->name(),Shape::MIDDLE);
-//        sc->drawShape(segment)
-//        };*/
-
-//        starty+=size;
-//    }
-
 
 }
-

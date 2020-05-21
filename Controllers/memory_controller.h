@@ -16,11 +16,12 @@ typedef enum AllocatorType{FIRST_FIT, BEST_FIT}AllocatorType;
 
 class MemoryController{
 public:
-    MemoryController(unsigned long size, AllocatorType type);
+    MemoryController(unsigned long size);
     bool allocateProcess(QString name, QVector<QString> &segmentsNames, QVector<unsigned long> &segmentsLimits);
     bool reallocateProcess(QString name);
     void deallocateSegment(unsigned long base, unsigned long limit);
     void deallocateProcess(QString name);
+    void setAllocationType(AllocatorType t);
     deque<Segment*>* getSegments();
     QVector<Process*>* getProcesses();
 
