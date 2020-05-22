@@ -43,6 +43,7 @@ void Deallocator::deallocateSegment(long base, unsigned long limit)
             Segment *s3 = nullptr;
             int indexOfProcessToBeRemoved = memory->getProcesses()->indexOf((*(memory->getSegmentToProcess()))[*i]);
             delete (*i);
+            memory->getSegmentToProcess()->erase(memory->getSegmentToProcess()->find(*i));
             deque<Segment *>::iterator currentPlace = d->erase(i);
             delete ((*(memory->getProcesses()))[indexOfProcessToBeRemoved]);
             memory->getProcesses()->remove(indexOfProcessToBeRemoved);
@@ -51,12 +52,14 @@ void Deallocator::deallocateSegment(long base, unsigned long limit)
                 Process *process = new Process(Process::generateProcessName());
                 process->addSegment(s1);
                 memory->getProcesses()->append(process);
+                (*(memory->getSegmentToProcess()))[s1] = process;
             }
             if (base+limit != finishLoc) {
                 s3 = new Segment("system", base+limit, finishLoc - base - limit, SegmentType::ALLOCATED);
                 Process *process = new Process(Process::generateProcessName());
                 process->addSegment(s3);
                 memory->getProcesses()->append(process);
+                (*(memory->getSegmentToProcess()))[s3] = process;
             }
             if (s1 != nullptr) {
                 currentPlace = d->insert(currentPlace, s1) + 1;

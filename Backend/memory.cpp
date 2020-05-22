@@ -12,6 +12,7 @@ Memory::Memory(unsigned long size) : size{size}
     process->addSegment(segment);
     segments->push_back(segment);
     processes->append(process);
+    (*segmentToProcess)[segment] = process;
 }
 
 deque<Segment *> *Memory::getSegments()

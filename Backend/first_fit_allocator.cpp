@@ -20,6 +20,7 @@ Process *FirstFitAllocator::createProcess(QString processName, QVector<QString> 
                 Segment *s = new Segment((*segmentsNames)[i], -1, (*limits)[i], ALLOCATED);
 				//adding segment to process
 				p->addSegment(s);
+                (*memory->getSegmentToProcess())[s] = p;
             }
             (memory->getProcesses())->push_back(p);
         }else{
