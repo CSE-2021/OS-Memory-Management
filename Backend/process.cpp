@@ -36,8 +36,8 @@ void Process::setIsAllocated(bool isAllocated)
     this->isAllocated = isAllocated;
 }
 
-string Process::generateProcessName()
+QString Process::generateProcessName()
 {
     ++id;
-    return "system" + Process::id;
+    return ("system" + QString::number(Process::id));
 }

@@ -23,7 +23,7 @@ public:
     bool getIsAllocated();
     void setIsAllocated(bool isAllocated);
     // Static
-    static string generateProcessName();
+    static QString generateProcessName();
 };
 
 #endif // PROCESS_H_
