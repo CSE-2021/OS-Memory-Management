@@ -47,3 +47,7 @@ deque<Segment*>* MemoryController::getSegments(){
 QVector<Process*>* MemoryController::getProcesses(){
     return mem->getProcesses();
 }
+QString MemoryController::getProcessName(Segment* s){
+    return mem->getProcessName(s);
+
+}

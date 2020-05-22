@@ -25,7 +25,8 @@ void GUIContoller::RegisterObject(MainWindow *m){
 }
 void GUIContoller::onNxtClicked()
 {
-    if(main->widget1->allocatorBox->currentIndex()==0){
+    if(main->widget1->allocatorBox->currentIndex()==0)
+    {
         QMessageBox e;
         e.setText("Please Choose an allocation method");
         e.exec();
@@ -60,7 +61,8 @@ void GUIContoller::onNxtClicked()
         int limit = main->widget1->memTable->item(i,2)->text().toInt();
         m->deallocateSegment(base,limit);
     }
-    for(Segment *s : *(m->getSegments())){
+    for(Segment *s : *(m->getSegments()))
+    {
         qDebug() << s->getName() << s->getBase() << s->getLimit();
         if(s->getName()=="HOLE")
         {
@@ -108,10 +110,12 @@ void GUIContoller::onAllocateNewClicked()
         segmentSizes.append(size);
     }
     bool allocated =  m->allocateProcess(p_name, segmentNames, segmentSizes);
-    if(!allocated){
+    if(!allocated)
+    {
         main->widget2->pStack->setTitle(main->widget2->pStack->title()+"(Deallocated)");
         main->widget2->processesList->item(main->widget2->pStackWidget->currentIndex())->setText(main->widget2->pStack->title());
-    }else{
+    }else
+    {
         int rows = main->widget2->pStack->processTable->rowCount();
         for(int a = 0; a < rows; a++){
             QString s_name =  main->widget2->pStack->processTable->item(a,0)->text();
@@ -123,7 +127,8 @@ void GUIContoller::onAllocateNewClicked()
     }
 
     bool err = false;
-    if(!err){
+    if(!err)
+    {
         int num = main->widget2->pStackWidget->count()+1;
         main->widget2->pStack = new ProcessStack(main->widget2,"P"+QString::number(num));
         main->widget2->pStackWidget->addWidget(main->widget2->pStack);
@@ -133,6 +138,21 @@ void GUIContoller::onAllocateNewClicked()
         connect(main->widget2->pStack->processName,&QLineEdit::textEdited,main->widget2->pStackWidget,onProNameChanged);
         connect(main->widget2->pStack->processName,&QLineEdit::textEdited,main->widget2->processesList,updateProCount);
     }
+    for(Segment *s : *(m->getSegments()))
+    {
+        qDebug() << s->getName() << s->getBase() << s->getLimit();
+        if(s->getName()!="HOLE"&&s->getName()!="system")
+        {
+            qDebug()<<"Process Name: Crashing is here ";//<<m->getProcessName(s);
+            if(p_name==m->getProcessName(s))
+            {
+                main->segment = new Shape(0,s->getBase(),300,s->getLimit(),Shape::RECTANGLE2,1,QBrush(Qt::darkYellow,Qt::SolidPattern));
+                main->segment->setText((p_name+"\n")+s->getName(),Shape::MIDDLE);
+                main->sc->drawShape(main->segment);
+            }
+        }
+    }
+
 }
 void GUIContoller::onDeallocateClicked()
 {

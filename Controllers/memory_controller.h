@@ -24,6 +24,7 @@ public:
     void setAllocationType(AllocatorType t);
     deque<Segment*>* getSegments();
     QVector<Process*>* getProcesses();
+    QString getProcessName(Segment*);
 
 private:
     Memory *mem;
