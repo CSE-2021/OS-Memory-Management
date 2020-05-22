@@ -12,6 +12,7 @@
 #include "../GUI/processwidget.h"
 #include "memory_controller.h"
 #include <qdebug.h>
+#include <QMessageBox>
 class GUIContoller : public QObject
 {
     Q_OBJECT

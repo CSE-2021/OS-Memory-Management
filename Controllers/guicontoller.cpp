@@ -25,7 +25,15 @@ void GUIContoller::RegisterObject(MainWindow *m){
 }
 void GUIContoller::onNxtClicked()
 {
-//    main->widget1->memTable->itemDelegateForColumn(1);
+    if(main->widget1->allocatorBox->currentIndex()==0){
+        QMessageBox e;
+        e.setText("Please Choose an allocation method");
+        e.exec();
+        return;
+    }
+    else if(main->widget1->allocatorBox->currentIndex()==1) m->setAllocationType(BEST_FIT);
+    else m->setAllocationType(FIRST_FIT);
+
     for(int i=0; i < main->widget1->memTable->rowCount(); i++)
        {
            for(int j=0; j < main->widget1->memTable->columnCount(); j++)
@@ -44,9 +52,6 @@ void GUIContoller::onNxtClicked()
                }
            }
        }
-    if(main->widget1->allocatorBox->currentIndex()==0) return;
-    else if(main->widget1->allocatorBox->currentIndex()==1) m->setAllocationType(BEST_FIT);
-    else m->setAllocationType(FIRST_FIT);
 
     int n_holes = main->widget1->memTable->rowCount();
     for(int i = 0 ; i < n_holes  ; i++)
@@ -55,7 +60,6 @@ void GUIContoller::onNxtClicked()
         int limit = main->widget1->memTable->item(i,2)->text().toInt();
         m->deallocateSegment(base,limit);
     }
-//int len =main->widget1->memSizeEdit->text().toInt();
     for(Segment *s : *(m->getSegments())){
         qDebug() << s->getName() << s->getBase() << s->getLimit();
         if(s->getName()=="HOLE")
@@ -86,6 +90,7 @@ void GUIContoller::onAllocateNewClicked()
     {
        for(int j=0; j < main->widget2->pStack->processTable->columnCount(); j++)
          {
+               if(j == 1) continue;
                bool flag = main->widget2->pStack->processTable->item(i,j) == nullptr;
 
                if (flag) /* the cell is not empty */
@@ -102,11 +107,21 @@ void GUIContoller::onAllocateNewClicked()
         segmentNames.append(name);
         segmentSizes.append(size);
     }
-    qDebug() << m->allocateProcess(p_name, segmentNames, segmentSizes);
-    for(Segment *s : *(m->getSegments()))
-    {
-        qDebug() << s->getName() << s->getBase() << s->getLimit();
+    bool allocated =  m->allocateProcess(p_name, segmentNames, segmentSizes);
+    if(!allocated){
+        main->widget2->pStack->setTitle(main->widget2->pStack->title()+"(Deallocated)");
+        main->widget2->processesList->item(main->widget2->pStackWidget->currentIndex())->setText(main->widget2->pStack->title());
+    }else{
+        int rows = main->widget2->pStack->processTable->rowCount();
+        for(int a = 0; a < rows; a++){
+            QString s_name =  main->widget2->pStack->processTable->item(a,0)->text();
+            for(Segment *s : *(m->getSegments())){
+                QString base = QString::number(s->getBase());
+                if(!s->getName().compare(s_name)) main->widget2->pStack->processTable->item(a,1)->setText(base);
+            }
+        }
     }
+
     bool err = false;
     if(!err){
         int num = main->widget2->pStackWidget->count()+1;
@@ -125,6 +140,7 @@ void GUIContoller::onDeallocateClicked()
     QString title = main->widget2->pStack->title();
     if (main->widget2->btnPrevPro->text()=="Deallocate Process")
     {
+        m->deallocateProcess(title);
         //remove from memory and
 //        main->widget2->pStack =dynamic_cast<ProcessStack*>(main->widget2->pStackWidget->currentWidget());
         main->widget2->pStack->setTitle(main->widget2->pStack->processName->text()+"(Deallocated)");
@@ -134,6 +150,7 @@ void GUIContoller::onDeallocateClicked()
     }
     else if (main->widget2->btnPrevPro->text()=="Allocate Process"&&title.contains("Deallocated"))
     {
+        m->reallocateProcess(title);
         main->widget2->pStack =dynamic_cast<ProcessStack*>(main->widget2->pStackWidget->currentWidget());
         main->widget2->btnPrevPro->setText("Deallocate Process");
         main->widget2->pStack->setTitle(title.remove("(Deallocated)"));
@@ -155,6 +172,11 @@ void GUIContoller::addSeg()
 {
     main->widget2->pStack =dynamic_cast<ProcessStack*>(main->widget2->pStackWidget->currentWidget());
     main->widget2->pStack->processTable->insertRow(main->widget2->pStack->processTable->rowCount());
+    int rcount = main->widget2->pStack->processTable->rowCount()-1;
+    main->widget2->pStack->processTable->setItem(rcount,1,new QTableWidgetItem());
+    QTableWidgetItem *i = main->widget2->pStack->processTable->item(rcount,1);
+    qDebug() << i << rcount;
+    i->setFlags(i->flags() & ~Qt::ItemIsEnabled);
   //  processTable->insertRow(main->widget2->pStack->processTable->rowCount());
 }
 void GUIContoller::delSeg()

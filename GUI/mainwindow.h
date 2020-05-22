@@ -19,6 +19,7 @@
 #include <QGraphicsScene>
 #include <QBrush>
 #include <QPainter>
+#include <QErrorMessage>
 
 //#include <QValueAxis>
 //#include <QSizePolicy>
