@@ -16,7 +16,7 @@ void Deallocator::deallocateProcess(Process *processPtr)
 
 	{
 		
-		((*(processPtr->getSegments()))[i])->setSegmentType(FREE);
+        ((*(processPtr->getSegments()))[i])->setSegmentType(ALLOCATED);
 		
 		deallocateSegment(((*(processPtr->getSegments()))[i])->getBase(),
 							((*(processPtr->getSegments()))[i])->getLimit());
@@ -25,7 +25,7 @@ void Deallocator::deallocateProcess(Process *processPtr)
 	}
 	// step 2: making isallocated value =0 for process
 
-	processPtr->setIsAllocated(true);
+    processPtr->setIsAllocated(false);
 }
 
 void Deallocator::deallocateSegment(long base, unsigned long limit)
@@ -42,10 +42,8 @@ void Deallocator::deallocateSegment(long base, unsigned long limit)
             Segment *s2 = new Segment("HOLE", base, limit, SegmentType::FREE);
             Segment *s3 = nullptr;
             int indexOfProcessToBeRemoved = memory->getProcesses()->indexOf((*(memory->getSegmentToProcess()))[*i]);
-            delete (*i);
             memory->getSegmentToProcess()->erase(memory->getSegmentToProcess()->find(*i));
             deque<Segment *>::iterator currentPlace = d->erase(i);
-            delete ((*(memory->getProcesses()))[indexOfProcessToBeRemoved]);
             memory->getProcesses()->remove(indexOfProcessToBeRemoved);
             if (base != startLoc) {
                 s1 = new Segment("system", startLoc, base - startLoc, SegmentType::ALLOCATED);
