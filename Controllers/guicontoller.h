@@ -37,6 +37,7 @@ private:
     static void updateProCount();
     static QString setBtnAllocate();
     static void onMemSizeChanged();
+    static void reDraw();
 
 
 

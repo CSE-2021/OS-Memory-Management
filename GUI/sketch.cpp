@@ -67,3 +67,6 @@ void Sketch::reset(){
 ////    s->setText("",Shape::MIDDLE);
 //}
 }
+//void Sketch::removeShape(Shape* s){
+//    this->removeItem()
+//}

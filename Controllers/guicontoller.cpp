@@ -160,14 +160,14 @@ void GUIContoller::onDeallocateClicked()
     QString title = main->widget2->pStack->title();
     if (main->widget2->btnPrevPro->text()=="Deallocate Process")
     {
-        m->deallocateProcess(title);
+//        m->deallocateProcess(title);
         //remove from memory and
 //        main->widget2->pStack =dynamic_cast<ProcessStack*>(main->widget2->pStackWidget->currentWidget());
-        main->widget2->pStack->setTitle(main->widget2->pStack->processName->text()+"(Deallocated)");
-//        qDebug()<<"reached";
+        main->widget2->pStack->setTitle(main->widget2->pStack->title()+"(Deallocated)");
         main->widget2->processesList->item(main->widget2->pStackWidget->currentIndex())->setText(main->widget2->pStack->title());
         main->widget2->btnPrevPro->setText("Allocate Process");
     }
+
     else if (main->widget2->btnPrevPro->text()=="Allocate Process"&&title.contains("Deallocated"))
     {
         m->reallocateProcess(title);
@@ -176,6 +176,7 @@ void GUIContoller::onDeallocateClicked()
         main->widget2->pStack->setTitle(title.remove("(Deallocated)"));
         main->widget2->processesList->currentItem()->setText(title.remove("(Dealloacted)"));
     }
+    reDraw();
 }
 void GUIContoller::onAllocateClicked()
 {
@@ -186,6 +187,7 @@ void GUIContoller::onAllocateClicked()
             main->widget2->pStack =dynamic_cast<ProcessStack*>(main->widget2->pStackWidget->currentWidget());
             main->widget2->btnPrevPro->setText("Deallocate Process");
             main->widget2->pStack->setTitle(title.remove("(Deallocated)"));
+            reDraw();
         }
 }
 void GUIContoller::addSeg()
@@ -281,4 +283,28 @@ void GUIContoller::onMemSizeChanged()
     main->Memory->setText("Memory",Shape::MIDDLE);
     main->sc->drawShape(main->Memory);
 
+}
+void GUIContoller::reDraw()
+{for(Segment *s : *(m->getSegments()))
+    {
+        qDebug() <<"after dealloc "<< s->getName() << s->getBase() << s->getLimit();
+        if(s->getName()=="HOLE")
+        {
+                main->segment = new Shape(0,s->getBase(),300,s->getLimit(),Shape::RECTANGLE2,1,QBrush(Qt::gray,Qt::SolidPattern));
+                main->segment->setText(s->getName(),Shape::MIDDLE);
+                main->sc->drawShape(main->segment);
+        }
+        else if(s->getName()=="system")
+        {
+            main->segment = new Shape(0,s->getBase(),300,s->getLimit(),Shape::RECTANGLE2,1,QBrush(Qt::red,Qt::CrossPattern));
+            main->segment->setText(s->getName(),Shape::MIDDLE);
+            main->sc->drawShape(main->segment);
+        }
+        else
+        {
+            main->segment = new Shape(0,s->getBase(),300,s->getLimit(),Shape::RECTANGLE2,1,QBrush(Qt::green,Qt::SolidPattern));
+            main->segment->setText((m->getProcessName(s)+"\n")+s->getName(),Shape::MIDDLE);
+            main->sc->drawShape(main->segment);
+        }
+    }
 }

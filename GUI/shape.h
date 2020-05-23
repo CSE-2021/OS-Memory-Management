@@ -36,6 +36,7 @@ public:
     int getThickness() const;
     int getPointsCount() const;
     QGraphicsTextItem *textItem = nullptr;
+//    ~Shape();
 
 
 private:

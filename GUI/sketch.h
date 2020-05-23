@@ -15,6 +15,7 @@ public:
     void drawShape(Shape *shape);
     void reset();
     void updateShapes();
+    /*void removeShape(Shape* s)*/;
 
 private:
     QList <Shape*> *shapes;
