@@ -1,11 +1,12 @@
 #include "guicontoller.h"
 MainWindow *GUIContoller::main;
 MemoryController *GUIContoller::m;
-
+QList<QColor> GUIContoller::colors = {Qt::darkRed,Qt::red, Qt::darkBlue, Qt::blue,Qt::darkCyan,Qt::darkGreen, Qt::green,Qt::cyan};
+int colorIndex = 0;
+QMap<QString,QColor> GUIContoller::ProColors;
 void GUIContoller::RegisterObject(MainWindow *m){
-    main = m;
+   main = m;
    connect(main->widget1->btnNext,&QPushButton::clicked,main->sWidget,onNxtClicked);
-//   connect(main->)
    connect(main->widget1->btnAddHole,&QPushButton::clicked,main->widget1->memTable,addHole);
    connect(main->widget1->btnDelHole,&QPushButton::clicked,main->widget1->memTable,delHole);
    connect(main->widget1->memSizeEdit,&QLineEdit::returnPressed,main->sc,onMemSizeChanged);
@@ -14,7 +15,6 @@ void GUIContoller::RegisterObject(MainWindow *m){
    connect(main->widget2->btnDelSeg,&QPushButton::clicked, main->widget2->pStack->processTable,delSeg);
    connect(main->widget2->btnNextPro,&QPushButton::clicked, main->widget2->pStackWidget,onAllocateNewClicked);
    connect(main->widget2->btnPrevPro,&QPushButton::clicked, main->widget2->pStackWidget,onDeallocateClicked);
-//   connect(main->widget2->btnPrevPro,&QPushButton::clicked, main->widget2->pStackWidget,onAllocateClicked);
 
    connect(main->widget2->btnReset,&QPushButton::clicked,main->sWidget,onResetClicked);
    connect(main->widget2->processesList,&QListWidget::itemDoubleClicked,main->widget2->pStackWidget,onProClicked);
@@ -114,12 +114,17 @@ void GUIContoller::onAllocateNewClicked()
     {
         main->widget2->pStack->setTitle(main->widget2->pStack->title()+"(Deallocated)");
         main->widget2->processesList->item(main->widget2->pStackWidget->currentIndex())->setText(main->widget2->pStack->title());
-    }else
+    }
+    else
     {
+        ProColors[p_name] = colors[colorIndex%colors.size()];
+        colorIndex ++;
         int rows = main->widget2->pStack->processTable->rowCount();
-        for(int a = 0; a < rows; a++){
+        for(int a = 0; a < rows; a++)
+        {
             QString s_name =  main->widget2->pStack->processTable->item(a,0)->text();
-            for(Segment *s : *(m->getSegments())){
+            for(Segment *s : *(m->getSegments()))
+            {
                 QString base = QString::number(s->getBase());
                 if(!s->getName().compare(s_name)) main->widget2->pStack->processTable->item(a,1)->setText(base);
             }
@@ -138,21 +143,7 @@ void GUIContoller::onAllocateNewClicked()
         connect(main->widget2->pStack->processName,&QLineEdit::textEdited,main->widget2->pStackWidget,onProNameChanged);
         connect(main->widget2->pStack->processName,&QLineEdit::textEdited,main->widget2->processesList,updateProCount);
     }
-    for(Segment *s : *(m->getSegments()))
-    {
-        qDebug() << s->getName() << s->getBase() << s->getLimit();
-        if(s->getName()!="HOLE"&&s->getName()!="system")
-        {
-            qDebug()<<"Process Name: Crashing is here ";//<<m->getProcessName(s);
-            if(p_name==m->getProcessName(s))
-            {
-                main->segment = new Shape(0,s->getBase(),300,s->getLimit(),Shape::RECTANGLE2,1,QBrush(Qt::darkYellow,Qt::SolidPattern));
-                main->segment->setText((p_name+"\n")+s->getName(),Shape::MIDDLE);
-                main->sc->drawShape(main->segment);
-            }
-        }
-    }
-
+    reDraw();
 }
 void GUIContoller::onDeallocateClicked()
 {
@@ -160,9 +151,8 @@ void GUIContoller::onDeallocateClicked()
     QString title = main->widget2->pStack->title();
     if (main->widget2->btnPrevPro->text()=="Deallocate Process")
     {
-//        m->deallocateProcess(title);
+        m->deallocateProcess(title);
         //remove from memory and
-//        main->widget2->pStack =dynamic_cast<ProcessStack*>(main->widget2->pStackWidget->currentWidget());
         main->widget2->pStack->setTitle(main->widget2->pStack->title()+"(Deallocated)");
         main->widget2->processesList->item(main->widget2->pStackWidget->currentIndex())->setText(main->widget2->pStack->title());
         main->widget2->btnPrevPro->setText("Allocate Process");
@@ -170,12 +160,17 @@ void GUIContoller::onDeallocateClicked()
 
     else if (main->widget2->btnPrevPro->text()=="Allocate Process"&&title.contains("Deallocated"))
     {
-        m->reallocateProcess(title);
+
         main->widget2->pStack =dynamic_cast<ProcessStack*>(main->widget2->pStackWidget->currentWidget());
         main->widget2->btnPrevPro->setText("Deallocate Process");
         main->widget2->pStack->setTitle(title.remove("(Deallocated)"));
+        m->reallocateProcess(title);
         main->widget2->processesList->currentItem()->setText(title.remove("(Dealloacted)"));
+        qDebug()<<"AFTER REALLOCTION ************************";
+        for(Segment *s : *(m->getSegments()))
+            qDebug() << s->getName() << s->getBase();
     }
+    main->sc->reset();
     reDraw();
 }
 void GUIContoller::onAllocateClicked()
@@ -258,6 +253,7 @@ void GUIContoller::onProClicked()
         main->widget2->btnPrevPro->setText("Deallocate Process");
     }
 }
+
 void GUIContoller::onProNameChanged()
 {
     main->widget2->pStack =dynamic_cast<ProcessStack*>(main->widget2->pStackWidget->currentWidget());
@@ -270,10 +266,7 @@ void GUIContoller::updateProCount()
     main->widget2->pStack =dynamic_cast<ProcessStack*>(main->widget2->pStackWidget->currentWidget());
     main->widget2->processesList->item(main->widget2->pStackWidget->currentIndex())->setText(main->widget2->pStack->processName->text());
 }
-//QString GUIContoller:: setBtnAllocate()
-//{
 
-//}
 void GUIContoller::onMemSizeChanged()
 {
     main->sc->reset();
@@ -285,9 +278,10 @@ void GUIContoller::onMemSizeChanged()
 
 }
 void GUIContoller::reDraw()
-{for(Segment *s : *(m->getSegments()))
+{
+    for(Segment *s : *(m->getSegments()))
     {
-        qDebug() <<"after dealloc "<< s->getName() << s->getBase() << s->getLimit();
+        qDebug() <<"Segments : "<< s->getName() << s->getBase() << s->getLimit();
         if(s->getName()=="HOLE")
         {
                 main->segment = new Shape(0,s->getBase(),300,s->getLimit(),Shape::RECTANGLE2,1,QBrush(Qt::gray,Qt::SolidPattern));
@@ -302,7 +296,7 @@ void GUIContoller::reDraw()
         }
         else
         {
-            main->segment = new Shape(0,s->getBase(),300,s->getLimit(),Shape::RECTANGLE2,1,QBrush(Qt::green,Qt::SolidPattern));
+            main->segment = new Shape(0,s->getBase(),300,s->getLimit(),Shape::RECTANGLE2,1,QBrush(ProColors[m->getProcessName(s)],Qt::SolidPattern));
             main->segment->setText((m->getProcessName(s)+"\n")+s->getName(),Shape::MIDDLE);
             main->sc->drawShape(main->segment);
         }

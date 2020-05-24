@@ -1,5 +1,6 @@
 #include "deallocator.h"
 #include <algorithm>
+#include <QDebug>
 
 using std::find;
 
@@ -26,6 +27,10 @@ void Deallocator::deallocateProcess(Process *processPtr)
 	// step 2: making isallocated value =0 for process
 
     processPtr->setIsAllocated(false);
+
+    for (int i = 0; i < memory->getProcesses()->size(); i++) {
+        qDebug() << (*memory->getProcesses())[i]->getName() << (*memory->getProcesses())[i]->getIsAllocated();
+    }
 }
 
 void Deallocator::deallocateSegment(long base, unsigned long limit)
@@ -41,10 +46,10 @@ void Deallocator::deallocateSegment(long base, unsigned long limit)
             Segment *s1 = nullptr;
             Segment *s2 = new Segment("HOLE", base, limit, SegmentType::FREE);
             Segment *s3 = nullptr;
-            int indexOfProcessToBeRemoved = memory->getProcesses()->indexOf((*(memory->getSegmentToProcess()))[*i]);
-            memory->getSegmentToProcess()->erase(memory->getSegmentToProcess()->find(*i));
+//            int indexOfProcessToBeRemoved = memory->getProcesses()->indexOf((*(memory->getSegmentToProcess()))[*i]);
+//            memory->getSegmentToProcess()->erase(memory->getSegmentToProcess()->find(*i));
             deque<Segment *>::iterator currentPlace = d->erase(i);
-            memory->getProcesses()->remove(indexOfProcessToBeRemoved);
+//            memory->getProcesses()->remove(indexOfProcessToBeRemoved);
             if (base != startLoc) {
                 s1 = new Segment("system", startLoc, base - startLoc, SegmentType::ALLOCATED);
                 Process *process = new Process(Process::generateProcessName());

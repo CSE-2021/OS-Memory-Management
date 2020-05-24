@@ -247,6 +247,7 @@ void BestFitAllocator::allocateSegment(QString name, unsigned long limit)
 
 bool BestFitAllocator::reallocateProcess(Process *process)
 {
+    qDebug() << "Reallocate Called";
     QVector <QString> segmentsNames;
 	for(auto &var : *(process->getSegments()))
         segmentsNames.push_back(var->getName());

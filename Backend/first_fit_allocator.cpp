@@ -145,7 +145,7 @@ void FirstFitAllocator::allocateSegment(QString name, unsigned long limit)
 
 	bool FirstFitAllocator::reallocateProcess(Process * process)
 	{
-
+        qDebug() << "Reallocate Called";
         QVector <QString> segmentsNames;//CHANGED
 		for (auto &var : *(process->getSegments()))
             segmentsNames.push_back(var->getName());

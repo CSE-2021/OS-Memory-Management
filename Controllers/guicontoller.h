@@ -19,13 +19,13 @@ class GUIContoller : public QObject
 public:
     static void RegisterObject(MainWindow *m);
 private:
+    static QMap<QString,QColor>ProColors;
+    static QList<QColor>colors;
     static MainWindow* main;
     static MemoryController* m;
     static void onNxtClicked();
     static void addHole();
     static void delHole();
-//    static void onNxtProClicked();
-//    static void onPrevProClicked();
     static void onAllocateNewClicked();
     static void onAllocateClicked();
     static void onDeallocateClicked();

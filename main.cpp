@@ -18,7 +18,8 @@ int main(int argc, char *argv[])
     GUIContoller::RegisterObject(&w);
     w.show();
 
-//    MemoryController memCont(50, AllocatorType::BEST_FIT);
+//    MemoryController memCont(50);
+//    memCont.setAllocationType(AllocatorType::FIRST_FIT);
 //    memCont.deallocateSegment(0,5);
 //    memCont.deallocateSegment(20,5);
 //    QVector<QString> names = {"T1","T2"};
@@ -39,7 +40,18 @@ int main(int argc, char *argv[])
 //        qDebug() << "Base: " << (*i)->getBase();
 //        qDebug() << "Limit: " << (*i)->getLimit();
 //    }
+
+//    qDebug() << "***************** deallocate ***********";
+//    memCont.deallocateProcess("P1");
+//    for (deque<Segment *>::iterator i = memCont.getSegments()->begin(); i != memCont.getSegments()->end(); i++) {
+//        qDebug() << "Name: " << (*i)->getName();
+//        qDebug() << "Base: " << (*i)->getBase();
+//        qDebug() << "Limit: " << (*i)->getLimit();
+//    }
 //    qDebug() << "Finished";
+
+
+
 
     return a.exec();
 }
