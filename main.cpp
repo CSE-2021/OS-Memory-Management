@@ -3,12 +3,14 @@
 #include <QApplication>
 #include <qfile.h>
 #include "qtextstream.h"
+#include<QStyleFactory>
 
 #include "Controllers/memory_controller.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+    a.setStyle(QStyleFactory::create("Fusion"));
     QFile styleFile (":/style/stylesheet.css");
     styleFile.open(QIODevice::ReadOnly);
     QString style = styleFile.readAll();
